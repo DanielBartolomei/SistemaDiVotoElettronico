@@ -1,5 +1,6 @@
 package com.mycompany.voteApp.my_app;
 
+/* OVERVIEW: classe che rappresenta un utente elettore. */
 public class Elettore extends User{
 	
 	private String numTesseraElet;

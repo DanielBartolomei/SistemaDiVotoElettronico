@@ -1,5 +1,6 @@
 package com.mycompany.voteApp.my_app;
 
+/* OVERVIEW: classe che rappresenta un utente generale. */
 public abstract class User {
 	
 	protected String username;
