@@ -1,6 +1,6 @@
 package com.mycompany.voteApp.my_app;
 
-/* OVERVIEW: classe che rappresenta un utente scrutinatore. prova cambio 3*/
+/* OVERVIEW: classe che rappresenta un utente scrutinatore. prova cambio 323 */
 public class Scrutinatore extends User{
 	private String nominativo;
 	private String codFiscale;
