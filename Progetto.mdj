@@ -33562,7 +33562,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGCxgjeSYM3CBA="
 							},
-							"name": "CryptedPassword",
+							"name": "hashPassword",
 							"type": "TEXT"
 						}
 					]

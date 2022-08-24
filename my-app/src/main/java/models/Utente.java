@@ -1,20 +1,59 @@
 package models;
 
-public class Utente extends Persona {
-	private CodiceFiscale cf;
-	private boolean isAdmin;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+@DatabaseTable(tableName = "utente")
+public class Utente{
 	
-	public Utente(String nome, String cognome, CodiceFiscale cf, boolean isAdmin) {
-		super(nome, cognome);
-		this.cf = cf;
-		this.isAdmin = isAdmin;
-	}
+	/**
+	 *  FIelds and Getters
+	 */
+	
+	@DatabaseField(unique = true)
+	private CodiceFiscale cf;
 	
 	public CodiceFiscale getCF() {
-		return this.cf;
+		return cf;
 	}
 	
-	public boolean isAdmin() {
-		return this.isAdmin;
+	@DatabaseField
+	private String hashPassword;
+	
+	
+	@DatabaseField(canBeNull = false)
+	private String nome;
+	
+	public String getNome() {
+		return nome;
 	}
+	
+	@DatabaseField(canBeNull = false)
+	private String cognome;
+	
+	public String getCognome() {
+		return cognome;
+	}
+	
+	@DatabaseField
+	private boolean isAdmin;
+	
+	public boolean isAdmin() {
+		return isAdmin;
+	}
+	
+	/**
+	 *  Empty Constructor
+	 */
+	
+	public Utente() {
+
+	}
+	
+	/**
+	 *  Other Methods
+	 */
+	
+	
+	
 }
