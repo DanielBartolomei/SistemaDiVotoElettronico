@@ -3,29 +3,31 @@ package models;
 import java.util.List;
 import java.util.ArrayList;
 
+import com.j256.ormlite.dao.ForeignCollection;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
+import com.j256.ormlite.table.DatabaseTable;
+
+
+
+@DatabaseTable(tableName = "partito")
 public class Partito {
+	
+	@DatabaseField
 	private String nome;
-	private List<Candidato> lista;
-	
-	public Partito(String nome) {
-		this.nome = nome;
-		this.lista = new ArrayList<Candidato>();
-	}
-	
-	public Partito(String nome, ArrayList<Candidato> lista) {
-		this.nome = nome;
-		this.lista = lista;
-	}
 	
 	public String getNome() {
 		return this.nome;
 	}
 	
-	public Candidato getCandidatoAt(int index) {
-		return lista.get(index);
+	@ForeignCollectionField
+	ForeignCollection<Candidato> candidati;
+	
+	public ForeignCollection<Candidato> getCandidati(){
+		return candidati;
 	}
 	
-	public int getListaLength() {
-		return lista.size();
+	public Partito() {
+
 	}
 }

@@ -1,6 +1,7 @@
 package models;
 
 import java.util.GregorianCalendar;
+import java.util.Objects;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -77,9 +78,34 @@ public class VotazioneClassica  {
 	
 	}
 	
+	public VotazioneClassica(int id, String nome,  GregorianCalendar dataInizio, GregorianCalendar dataFine, 
+			boolean isAssoluta, TipoVotazione tipoVotazione) {
+		Objects.requireNonNull(nome);
+		Objects.requireNonNull(dataInizio);
+		Objects.requireNonNull(dataFine);
+		
+		this.id = id;
+		this.nome = nome;
+		this.dataInizio = dataInizio;
+		this.dataFine = dataFine;
+		this.isAssoluta = isAssoluta;
+		this.tipoVotazione = tipoVotazione;
+		totValidi = 0;
+		totVoti = 0;
+	}
+	
 	/**
 	 *  Other Methods
 	 */
+	
+	public void addVote() {
+		totValidi += 1;
+		totVoti += 1;
+	}
+	
+	public void addBianca() {
+		totVoti +=1;
+	}
 	
 	
 	

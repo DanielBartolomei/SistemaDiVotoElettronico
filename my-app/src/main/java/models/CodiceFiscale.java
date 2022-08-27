@@ -8,6 +8,10 @@ public class CodiceFiscale {
 	private String nome;
 	private String cognome;
 	
+	public CodiceFiscale(String codice) {
+		this.codice = codice;
+	}
+	
 	public CodiceFiscale(String codice, int anno, String nome, String cognome) {
 		this.codice = codice;
 		this.annoDiNascita = anno;
@@ -89,4 +93,10 @@ public class CodiceFiscale {
 	private String getSubstring(int i, int f) {
 		return codice.substring(i, f);
 	}
+	
+	@Override
+	public String toString() {
+		return codice;
+	}
+	
 }

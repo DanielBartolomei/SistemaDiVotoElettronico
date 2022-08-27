@@ -1,5 +1,7 @@
 package models;
 
+import java.util.Objects;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -48,6 +50,19 @@ public class Utente{
 	
 	public Utente() {
 
+	}
+	
+	public Utente(CodiceFiscale cf, String hashPassword, String nome, String cognome, boolean isAdmin) {
+		Objects.requireNonNull(cf);
+		Objects.requireNonNull(hashPassword);
+		Objects.requireNonNull(nome);
+		Objects.requireNonNull(cognome);
+		
+		this.cf = cf;
+		this.hashPassword = hashPassword;
+		this.nome = nome;
+		this.cognome = cognome;
+		this.isAdmin = isAdmin;
 	}
 	
 	/**

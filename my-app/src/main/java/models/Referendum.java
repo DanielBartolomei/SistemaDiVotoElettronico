@@ -1,6 +1,7 @@
 package models;
 
 import java.util.GregorianCalendar;
+import java.util.Objects;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -76,10 +77,39 @@ public class Referendum{
 		
 	}
 	
+	public Referendum(int id, String nome, GregorianCalendar dataInizio, 
+			GregorianCalendar dataFine, boolean hasQuorum) {
+		Objects.requireNonNull(nome);
+		Objects.requireNonNull(dataInizio);
+		Objects.requireNonNull(dataFine);
+		
+		this.id = id;
+		this.nome = nome;
+		this.dataInizio = dataInizio;
+		this.dataFine = dataFine;
+		this.hasQuorum = hasQuorum;
+		totFavorevoli = 0;
+		totContrari = 0;
+		totVoti = 0;
+	}
+	
 	/**
 	 *  Other Methods
 	 */
 	
+	public void addFavorevole() {
+		totFavorevoli +=1;
+		totVoti += 1;
+	}
+	
+	public void addContrari() {
+		totContrari +=1;
+		totVoti +=1;
+	}
+	
+	public void addBianca() {
+		totVoti +=1;
+	}
 	
 	
 	

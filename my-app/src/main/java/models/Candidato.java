@@ -34,6 +34,10 @@ public class Candidato{
 	@DatabaseField(foreign = true)
 	private Partito partito;
 	
+	public void setPartito(Partito partito) {
+		this.partito = partito;
+	}
+	
 	public Partito getPartito() {
 		return partito;
 	}
