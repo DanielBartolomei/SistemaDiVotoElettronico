@@ -107,14 +107,55 @@ public class DbManager {
 		 */
 		
 		
-		public Utente registra(CodiceFiscale cf, String hashPassword, String nome, String cognome, boolean isAdmin) {
-			// TODO
-			return null;
+		/**
+		 * 
+		 * @param cf
+		 * @param hashPassword
+		 * @param nome
+		 * @param cognome
+		 * @return 1 se tupla aggiunta correttamente, 0 se utente già presente nel db, -1 se credenziali non approvate da AgiD,
+		 * 				-2 se viene sollevata una SQLException. 
+		 */
+		public int registra(String cf, String hashPassword, String nome, String cognome) {
+			try {
+				Utente utente = new Utente(cf, hashPassword, nome, cognome, false);
+				if(UserManager.isApprovedByAgiD(utente)) {
+					utente.setAdmin(UserManager.isApprovedAdmin(utente.getCF()));
+					
+					if(utenti.queryForId(utente.getCF()) == null) {
+						return utenti.create(utente); // forse si puo togliere if
+					} else {
+						return 0; // User already exists
+					}	
+				} else {
+					return -1; // Credentials not approved
+				}
+			}catch(SQLException e) {
+				return -2;
+			}
 		}
 		
-		public Utente autentica(CodiceFiscale cf, String hashPassword) {
-			// TODO
-			return null;
+		
+		/**
+		 * 
+		 * @param cf
+		 * @param hashPassword
+		 * @return utente associato alle credenziali se corrispondono ad un utente nel db, altrimenti null
+		 */
+		public Utente autentica(String cf, String hashPassword) {
+			try {
+				Utente utente = utenti.queryForId(cf);
+				if(utente != null) {
+					if (utente.checkPwd(hashPassword))
+						return utente;
+					else
+						return null;
+				} else {
+					return null;
+				}
+			} catch(SQLException e) {
+				return null;
+			}
 		}
 		
 		public boolean registraVotoVotazione(Utente utente, VotazioneClassica votazione) {
@@ -142,8 +183,17 @@ public class DbManager {
 			return true;
 		}
 		
-		// get votazioni utente
-		// get referendum utente
+		public List<VotazioneClassica> getVotazioniUtente(Utente utente){
+			// TODO
+			return null;
+		}
+		
+		public List<Referendum> getReferendumUtente(Utente utente){
+			// TODO
+			return null;
+		}
+		
+		
 		
 		// v magari in una nuova classe manager per gestire menu aggiunta candidati
 		// add candidato
@@ -152,64 +202,5 @@ public class DbManager {
 		
 		
 		
-		
-		
-		// TODO
-		// utente
-		
-		public Utente getUtente(String cf) {
-			return null;
-		}
-		
-		public List<Utente> getUtenti(){
-			return null;
-		}
-		
-		// votazione classica
-		
-		public VotazioneClassica getVotazione(int id) {
-			return null;
-		}
-		
-		public List<VotazioneClassica> getVotazioni() {
-			return null;
-		}
-		
-		// referendum
-		
-		public Referendum getReferendum(int id) {
-			return null;
-		}
-		
-		public List<Referendum> getReferendums() {
-			return null;
-		}
-		
-		// partito
-		
-		public Partito getPartito(String nome) {
-			return null;
-		}
-		
-		public List<Partito> getPartiti () {
-			return null;
-		}
-		
-		// candidato		
-		
-		public Candidato getCandidato(int id) {
-			return null;
-		}
-		
-		public List<Candidato> getCandidati() {
-			return null;
-		}
-		
-		
-		
-		
-		
-		
-		
-		
+				
 }

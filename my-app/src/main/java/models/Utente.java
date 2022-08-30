@@ -12,15 +12,19 @@ public class Utente{
 	 *  FIelds and Getters
 	 */
 	
-	@DatabaseField(unique = true)
-	private CodiceFiscale cf;
+	@DatabaseField(id = true, unique = true)
+	private String cf;
 	
-	public CodiceFiscale getCF() {
+	public String getCF() {
 		return cf;
 	}
 	
 	@DatabaseField
 	private String hashPassword;
+	
+	public boolean checkPwd(String hashPassword) {
+		return this.hashPassword.equals(hashPassword);
+	}
 	
 	
 	@DatabaseField(canBeNull = false)
@@ -44,6 +48,10 @@ public class Utente{
 		return isAdmin;
 	}
 	
+	public boolean setAdmin(boolean b) {
+		return isAdmin = b;
+	}
+	
 	/**
 	 *  Empty Constructor
 	 */
@@ -52,7 +60,7 @@ public class Utente{
 
 	}
 	
-	public Utente(CodiceFiscale cf, String hashPassword, String nome, String cognome, boolean isAdmin) {
+	public Utente(String cf, String hashPassword, String nome, String cognome, boolean isAdmin) {
 		Objects.requireNonNull(cf);
 		Objects.requireNonNull(hashPassword);
 		Objects.requireNonNull(nome);

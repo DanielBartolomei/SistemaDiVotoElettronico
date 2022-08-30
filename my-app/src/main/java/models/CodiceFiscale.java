@@ -2,33 +2,15 @@ package models;
 
 import java.util.GregorianCalendar;
 
-public class CodiceFiscale {
-	private String codice;
-	private int annoDiNascita;
-	private String nome;
-	private String cognome;
+public final class CodiceFiscale {	
 	
-	public CodiceFiscale(String codice) {
-		this.codice = codice;
+	private CodiceFiscale() {
+		
 	}
 	
-	public CodiceFiscale(String codice, int anno, String nome, String cognome) {
-		this.codice = codice;
-		this.annoDiNascita = anno;
-		this.cognome = cognome;
-		this.nome = nome;
-	}
 	
-	public String getNome() {
-		return this.nome;
-	}
-	
-	public String getCognome() {
-		return this.cognome;
-	}
-	
-	public String getSesso() {
-		String s = this.getSubstring(9, 11);
+	public static String getSesso(String codice) {
+		String s = codice.substring(9, 11); 
 		
 		if (Integer.valueOf(s) < 40) {
 			return new String("M");
@@ -37,13 +19,13 @@ public class CodiceFiscale {
 		}
 	}
 	
-	public GregorianCalendar getDataDiNascita() {
-		String s = this.getSubstring(8, 11);
+	public static GregorianCalendar getDataDiNascita(String codice) {
+		String s = codice.substring(8, 11);
 
 		String mese = s.charAt(0) + "";
 		int giorno = Integer.valueOf(s.substring(1, 3));
 		
-		if (this.getSesso().equals("F")) {
+		if (getSesso(codice).equals("F")) { 
 			giorno -= 40;
 		}
 		int m;
@@ -87,16 +69,7 @@ public class CodiceFiscale {
 			default:
 				m = 1;
 		}
-		return new GregorianCalendar(this.annoDiNascita, m, giorno);
-	}
-	
-	private String getSubstring(int i, int f) {
-		return codice.substring(i, f);
-	}
-	
-	@Override
-	public String toString() {
-		return codice;
+		return new GregorianCalendar(Integer.valueOf(codice.substring(6,8)), m, giorno);
 	}
 	
 }

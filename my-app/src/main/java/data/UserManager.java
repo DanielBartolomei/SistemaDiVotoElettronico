@@ -1,6 +1,7 @@
 package data;
 
 import models.CodiceFiscale;
+import models.Utente;
 
 public class UserManager {
 
@@ -16,12 +17,16 @@ public class UserManager {
 		return _instance;
 	}
 	
-	public boolean isValidVoter(CodiceFiscale cf){
+	public static boolean isValidVoter(String cf){
 		// TODO
 		return true;
 	}
 	
-	public boolean isApprovedAdmin(CodiceFiscale cf) {
+	public static boolean isApprovedAdmin(String cf) {
+		return true; // simulato
+	}
+
+	public static boolean isApprovedByAgiD(Utente utente) {
 		return true; // simulato
 	}
 }
