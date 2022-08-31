@@ -12,7 +12,7 @@ public class VotiPartito {
 	private int id;
 
 	@DatabaseField(foreign = true, foreignColumnName = "id", uniqueCombo = true)
-	private VotazioneClassica vc;
+	private VotazioneClassica votazione;
 	
 	@DatabaseField(foreign = true, foreignColumnName = "id", uniqueCombo = true)
 	private Partito partito;
@@ -29,11 +29,17 @@ public class VotiPartito {
 		
 	}
 	
+	public VotiPartito(VotazioneClassica vc, Partito partito) {
+		this.votazione = vc;
+		this.partito = partito;
+		totVoti = 0;
+	}
+	
 	/**
 	 *  Other Methods
 	 */
 	
-	public void addVote() {
+	public void aggiungiVoto() {
 		totVoti += 1;
 	}
 	

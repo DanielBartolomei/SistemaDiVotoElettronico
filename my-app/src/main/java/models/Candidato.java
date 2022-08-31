@@ -50,6 +50,12 @@ public class Candidato{
 		
 	}
 	
+	public Candidato(String nome, String cognome) {
+		this.nome = nome;
+		this.cognome = cognome;
+		this.partito = null;
+	}
+	
 	/**
 	 *  Other Methods
 	 */

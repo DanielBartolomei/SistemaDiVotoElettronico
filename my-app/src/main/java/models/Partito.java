@@ -11,7 +11,7 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "partito")
 public class Partito {
 	
-	@DatabaseField
+	@DatabaseField(id = true)
 	private String nome;
 	
 	public String getNome() {
@@ -26,6 +26,10 @@ public class Partito {
 	}
 	
 	public Partito() {
-
+		
+	}
+	
+	public Partito(String nome) {
+		this.nome = nome;
 	}
 }

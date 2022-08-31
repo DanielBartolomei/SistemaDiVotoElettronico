@@ -97,20 +97,18 @@ public class Referendum{
 	 *  Other Methods
 	 */
 	
-	public void addFavorevole() {
-		totFavorevoli +=1;
-		totVoti += 1;
-	}
-	
-	public void addContrari() {
-		totContrari +=1;
+	public void aggiungiVoto(TipoEsitoRef esito) {
+		switch(esito) {
+			case FAVOREVOLE:
+				totFavorevoli += 1;
+				break;
+		
+			case CONTRARIO:
+				totContrari += 1;
+				break;
+			default:
+				break;
+		}
 		totVoti +=1;
 	}
-	
-	public void addBianca() {
-		totVoti +=1;
-	}
-	
-	
-	
 }

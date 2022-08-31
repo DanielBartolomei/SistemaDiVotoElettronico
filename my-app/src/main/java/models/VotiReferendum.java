@@ -12,8 +12,16 @@ public class VotiReferendum {
 	@DatabaseField(foreign = true, foreignColumnName = "id", uniqueCombo = true)
 	private Referendum referendum;
 	
+	public void setUtente(Referendum referendum) {
+		this.referendum = referendum;
+	}
+	
 	@DatabaseField(foreign = true, foreignColumnName = "cf",  uniqueCombo = true)
 	private Utente utente;
+	
+	public void setUtente(Utente utente) {
+		this.utente = utente;
+	}
 	
 	public Utente getUtente() {
 		return utente;
@@ -25,6 +33,11 @@ public class VotiReferendum {
 	
 	public VotiReferendum() {
 		
+	}
+	
+	public VotiReferendum(Referendum referendum, Utente utente) {
+		this.referendum = referendum;
+		this.utente = utente;
 	}
 	
 	/**

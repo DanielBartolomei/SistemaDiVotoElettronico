@@ -1,12 +1,16 @@
 package data;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.io.IOException;
 import java.sql.SQLException;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
+import com.j256.ormlite.stmt.Where;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
@@ -21,7 +25,7 @@ public class DbManager {
 		
 		private Dao<Utente, String> utenti;
 		private Dao<VotazioneClassica, Integer> votazioni;
-		private Dao<Referendum, Integer> referendum;
+		private Dao<Referendum, Integer> referendums;
 		private Dao<Partito, String> partiti;
 		private Dao<Candidato, Integer> candidati;
 		
@@ -68,7 +72,7 @@ public class DbManager {
 
 	            utenti = DaoManager.createDao(source, Utente.class);
 	            votazioni = DaoManager.createDao(source, VotazioneClassica.class);
-	            referendum = DaoManager.createDao(source, Referendum.class);
+	            referendums = DaoManager.createDao(source, Referendum.class);
 	            partiti = DaoManager.createDao(source, Partito.class);
 	            votiVotazioni = DaoManager.createDao(source, Voti.class);
 	            votiReferendum = DaoManager.createDao(source, VotiReferendum.class);
@@ -158,29 +162,160 @@ public class DbManager {
 			}
 		}
 		
-		public boolean registraVotoVotazione(Utente utente, VotazioneClassica votazione) {
-			// TODO
-			return true;
+		
+		public boolean aggiungiPartito(String nome) {
+			Objects.requireNonNull(nome);
+			try {
+				partiti.createIfNotExists(new Partito(nome));
+				return true;
+			}catch(SQLException e) {
+				return false;
+			}
+		}
+		
+		public boolean aggiungiCandidato(String nome, String cognome, String nome_partito) {
+			Objects.requireNonNull(nome);
+			Objects.requireNonNull(cognome);
+			Objects.requireNonNull(nome_partito);
+
+			try {
+				Candidato candidato = new Candidato(nome, cognome);
+				Partito partito = partiti.queryForId(nome_partito);
+				if(partito != null) {
+					candidato.setPartito(partito);
+					return true;
+				}
+				return false;
+			}catch(SQLException e) {
+				return false;
+			}
+		}
+		
+		public boolean registraPartecipazionePartito(VotazioneClassica votazione, Partito partito) {
+			Objects.requireNonNull(votazione);
+			Objects.requireNonNull(partito);
+			try {
+				if (votiPartiti.queryForMatching(new VotiPartito(votazione, partito)) != null)
+					return true;
+				
+				votiPartiti.create(new VotiPartito(votazione, partito));
+				return true;
+			}catch(SQLException e) {
+				return false;
+			}
+		}
+		
+		/*
+		public boolean controllaPartecipazionePartito(VotazioneClassica votazione, Partito partito) {
+			Objects.requireNonNull(votazione);
+			try {
+				Map<String, Object> fields = new HashMap<>();
+				fields.put("partito", partito);
+				fields.put("votazione", votazione);
+				if(votiPartiti.queryForFieldValues(fields) != null)
+					return true;
+				else
+					return false;
+			}catch(SQLException e) {
+				return false;
+			}
+		}
+		*/
+		
+		public VotazioneClassica registraVotoVotazione(Utente utente, int id_votazione) {
+			// cerca referendum
+			Objects.requireNonNull(utente);
+			try {
+				VotazioneClassica vc = votazioni.queryForId(id_votazione);
+							
+				if (vc != null) {
+					votiVotazioni.create(new Voti(vc, utente));
+					return vc;
+				}
+				return null;
+			}catch(SQLException e) {
+				return null;
+			}
+		}
+		
+		public Candidato getCandidato(int id_candidato) {
+			try {
+				return candidati.queryForId(id_candidato);
+			}catch(SQLException e) {
+				return null;
+			}
 		}
 		
 		public boolean registraEsitoVotazione(VotazioneClassica votazione, Candidato candidato) {
-			// TODO
-			return true;
+			Objects.requireNonNull(votazione);
+			Objects.requireNonNull(candidato);
+			try {
+				 // da controllare il funzionamento
+				List<VotiCandidato> vc = votiCandidati.queryForMatching(new VotiCandidato(votazione, candidato));
+				vc.get(0).aggiungiVoto();
+				
+				if(votiCandidati.update(vc.get(0)) == 1)
+					return true;
+				else 
+					return false;
+			}catch(SQLException e) {
+				return false;
+			}
+		}
+		
+		public Partito getPartito(String nome_partito) {
+			Objects.requireNonNull(nome_partito);
+			try {
+				return partiti.queryForId(nome_partito);
+			}catch(SQLException e) {
+				return null;
+			}
 		}
 		
 		public boolean registraEsitoVotazione(VotazioneClassica votazione, Partito partito) {
-			// TODO
-			return true;
+			Objects.requireNonNull(votazione);
+			Objects.requireNonNull(partito);
+			try {
+				 // da controllare il funzionamento
+				List<VotiPartito> vc = votiPartiti.queryForMatching(new VotiPartito(votazione, partito));
+				vc.get(0).aggiungiVoto();
+				
+				if(votiPartiti.update(vc.get(0)) == 1)
+					return true;
+				else 
+					return false;
+			}catch(SQLException e) {
+				return false;
+			}
 		}
 		
-		public boolean registraVotoReferendum(Utente utente, Referendum referendum) {
-			// TODO
-			return true;
+		public Referendum registraVotoReferendum(Utente utente, int id_referendum) {
+			Objects.requireNonNull(utente);
+			try {
+				Referendum referendum = referendums.queryForId(id_referendum);
+				
+				if (referendum != null) {
+					votiReferendum.create(new VotiReferendum(referendum, utente));
+					return referendum;
+				}
+				return null;
+			}catch(SQLException e) {
+				return null;
+			}
 		}
 		
 		public boolean registraEsitoReferendum(Referendum referendum, TipoEsitoRef esito) {
-			// TODO
-			return true;
+			Objects.requireNonNull(referendum);
+			Objects.requireNonNull(esito);
+			try {
+				referendum.aggiungiVoto(esito);
+				if(referendums.update(referendum) == 1)
+					return true;
+				else 
+					return false;
+			}catch(SQLException e) {
+				return false;
+			}
 		}
 		
 		public List<VotazioneClassica> getVotazioniUtente(Utente utente){
