@@ -1,6 +1,10 @@
 package models;
 
 
+
+
+import java.util.ArrayList;
+
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
@@ -21,8 +25,12 @@ public class Partito {
 	@ForeignCollectionField
 	ForeignCollection<Candidato> candidati;
 	
-	public ForeignCollection<Candidato> getCandidati(){
-		return candidati;
+	public ArrayList<Candidato> getCandidati(){
+		return new ArrayList<>(candidati);
+	}
+	
+	public void aggiungiCandidato(Candidato candidato) {
+		candidati.add(candidato);
 	}
 	
 	public Partito() {

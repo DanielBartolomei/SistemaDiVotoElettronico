@@ -28,7 +28,7 @@ public class Voti {
 	}
 	
 	public Voti(VotazioneClassica vc, Utente utente) {
-		this.vc = vc;
+		this.votazione = vc;
 		this.utente = utente;
 	}
 	
