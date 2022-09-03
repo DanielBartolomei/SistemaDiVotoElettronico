@@ -1,4 +1,4 @@
-package data;
+package org.bartolomeirover.data;
 
 import java.util.List;
 import java.util.Objects;
@@ -10,7 +10,7 @@ import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
-import models.*;
+import org.bartolomeirover.models.*;
 
 public class DbManager {
 

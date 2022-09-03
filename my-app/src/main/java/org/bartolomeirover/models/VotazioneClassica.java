@@ -1,4 +1,4 @@
-package models;
+package org.bartolomeirover.models;
 
 import java.util.GregorianCalendar;
 import java.util.Objects;

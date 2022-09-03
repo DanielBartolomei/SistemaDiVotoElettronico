@@ -1,4 +1,4 @@
-package models;
+package org.bartolomeirover.models;
 
 import java.util.Objects;
 

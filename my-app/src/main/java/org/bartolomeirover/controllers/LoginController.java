@@ -1,10 +1,11 @@
-package controllers;
+package org.bartolomeirover.controllers;
 
+import org.bartolomeirover.common.Controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
 
-public class LoginController {
+public class LoginController extends Controller{
 	
 	private String username;
 	private String password;

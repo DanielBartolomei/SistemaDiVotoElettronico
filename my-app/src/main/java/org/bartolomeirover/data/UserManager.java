@@ -1,7 +1,6 @@
-package data;
+package org.bartolomeirover.data;
 
-import models.CodiceFiscale;
-import models.Utente;
+import org.bartolomeirover.models.Utente;
 
 public class UserManager {
 
