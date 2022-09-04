@@ -1,6 +1,6 @@
 package org.bartolomeirover.models;
 
-enum TipoVotazione {
+public enum TipoVotazione {
 	ORDINALE, CATEGORICO, CONPREFERENZA;
 	
 	@Override

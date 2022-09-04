@@ -1,6 +1,6 @@
 package org.bartolomeirover.models;
 
-import java.util.GregorianCalendar;
+import java.sql.Date;
 import java.util.Objects;
 
 import com.j256.ormlite.field.DatabaseField;
@@ -28,16 +28,16 @@ public class Referendum{
 	}
 	
 	@DatabaseField(canBeNull = false)
-	private GregorianCalendar dataInizio;
+	private Date dataInizio;
 	
-	public GregorianCalendar getInizio() {
+	public Date getInizio() {
 		return dataInizio;
 	}
 	
 	@DatabaseField(canBeNull = false)
-	private GregorianCalendar dataFine;
+	private Date dataFine;
 	
-	public GregorianCalendar getFine() {
+	public Date getFine() {
 		return dataFine;
 	}
 	
@@ -77,13 +77,12 @@ public class Referendum{
 		
 	}
 	
-	public Referendum(int id, String nome, GregorianCalendar dataInizio, 
-			GregorianCalendar dataFine, boolean hasQuorum) {
+	public Referendum(String nome, Date dataInizio, 
+			Date dataFine, boolean hasQuorum) {
 		Objects.requireNonNull(nome);
 		Objects.requireNonNull(dataInizio);
 		Objects.requireNonNull(dataFine);
 		
-		this.id = id;
 		this.nome = nome;
 		this.dataInizio = dataInizio;
 		this.dataFine = dataFine;

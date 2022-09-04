@@ -60,7 +60,7 @@ public class Utente{
 
 	}
 	
-	public Utente(String cf, String hashPassword, String nome, String cognome, boolean isAdmin) {
+	public Utente(String cf, String hashPassword, String nome, String cognome) {
 		Objects.requireNonNull(cf);
 		Objects.requireNonNull(hashPassword);
 		Objects.requireNonNull(nome);
@@ -70,7 +70,6 @@ public class Utente{
 		this.hashPassword = hashPassword;
 		this.nome = nome;
 		this.cognome = cognome;
-		this.isAdmin = isAdmin;
 	}
 	
 	/**

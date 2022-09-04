@@ -1,44 +1,49 @@
 package org.bartolomeirover;
 
+import java.io.IOException;
+import java.net.URL;
+
+import org.bartolomeirover.data.DbManager;
+import org.bartolomeirover.App;
+import org.bartolomeirover.common.Controller;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.File;
-import java.io.IOException;
-
-import org.bartolomeirover.common.Controller;
-import org.bartolomeirover.data.*;
-
-/**
- * JavaFX App
- */
 public class App extends Application {
+	
+	private static Scene scene;
 
-    private static Scene scene;
+	@Override
+	public void start(Stage stage) throws IOException{
+		DbManager db = DbManager.getInstance();
 
-    public static boolean homeLoaded;
-
-    @Override
-    public void start(Stage stage) throws IOException {
-        DbManager db = DbManager.getInstance();
-
-        db.checkCreation();
-
-        scene = new Scene(loadView("HomeView"), 1280, 720);
-        navigate(null, "HomeView");
+		if (db.checkCreation()) {
+        	System.out.println("OK");
+        	db.createFakeData();
+        }else {
+        	System.out.println("NOT OK");
+        }
+		
+		/*scene = new Scene(loadView("Login"), 1280, 720);
+		System.out.println("postLoadView");
+        navigate(null, "Login");
+        System.out.println("postLoadView");
         stage.setScene(scene);
         stage.setTitle("Bike Sharing");
         stage.setMinWidth(900);
         stage.setMinHeight(600);
-        stage.show();
-        homeLoaded = true;
-    }
-
-    public static Parent loadView(String view) throws IOException {
-        FXMLLoader loader = new FXMLLoader(App.class.getResource("views/" + view + ".fxml"));
+        stage.show();*/
+	}
+	
+	public static Parent loadView(String view) throws IOException {
+		FXMLLoader loader = new FXMLLoader();
+		final URL resource = App.class.getResource("views/" + view + ".fxml");
+		loader.setLocation(resource);
+        System.out.println("OK");
         return loader.load();
     }
 
@@ -63,10 +68,8 @@ public class App extends Application {
     public static void navigate(Controller sender, String view) throws IOException {
         navigate(sender, view, null);
     }
-
-    public static void main(String[] args) {
-        launch();
-    }
-
+	
+	public static void main(String[] args) {
+		launch(args);
+	}
 }
-

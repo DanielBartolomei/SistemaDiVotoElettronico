@@ -31,7 +31,7 @@ public class Candidato{
 		return cognome;
 	}
 	
-	@DatabaseField(foreign = true)
+	@DatabaseField(foreign = true, canBeNull = false)
 	private Partito partito;
 	
 	public void setPartito(Partito partito) {
@@ -54,6 +54,12 @@ public class Candidato{
 		this.nome = nome;
 		this.cognome = cognome;
 		this.partito = null;
+	}
+	
+	public Candidato(String nome, String cognome, Partito partito) {
+		this.nome = nome;
+		this.cognome = cognome;
+		this.partito = partito;
 	}
 	
 	/**

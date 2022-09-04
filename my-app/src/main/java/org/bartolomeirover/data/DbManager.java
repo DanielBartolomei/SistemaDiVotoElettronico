@@ -2,8 +2,11 @@ package org.bartolomeirover.data;
 
 import java.util.List;
 import java.util.Objects;
+import java.nio.charset.StandardCharsets;
+import java.sql.Date;
 import java.sql.SQLException;
 
+import com.google.common.hash.Hashing;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
@@ -16,7 +19,7 @@ public class DbManager {
 
 		private static DbManager _instance;
 		
-		private static String dbUrl = "";
+		private static String dbUrl = "jdbc:sqlite:data.db"; //"jdbc:mysql://javauser:javauser123@localhost:3306/db";
 		private ConnectionSource source;
 		
 		private Dao<Utente, String> utenti;
@@ -73,6 +76,7 @@ public class DbManager {
 	            utenti = DaoManager.createDao(source, Utente.class);
 	            votazioni = DaoManager.createDao(source, VotazioneClassica.class);
 	            referendums = DaoManager.createDao(source, Referendum.class);
+	            candidati = DaoManager.createDao(source, Candidato.class);
 	            partiti = DaoManager.createDao(source, Partito.class);
 	            votiVotazioni = DaoManager.createDao(source, Voti.class);
 	            votiReferendum = DaoManager.createDao(source, VotiReferendum.class);
@@ -135,7 +139,7 @@ public class DbManager {
 			Objects.requireNonNull(nome);
 			Objects.requireNonNull(cognome);
 			try {
-				Utente utente = new Utente(cf, hashPassword, nome, cognome, false);
+				Utente utente = new Utente(cf, hashPassword, nome, cognome);
 				if(UserManager.isApprovedByAgiD(utente)) {
 					utente.setAdmin(UserManager.isApprovedAdmin(utente.getCF()));					
 					return utenti.createIfNotExists(utente);
@@ -206,13 +210,11 @@ public class DbManager {
 			Objects.requireNonNull(nome_partito);
 
 			try {
-				Candidato candidato = new Candidato(nome, cognome);
 				Partito partito = partiti.queryForId(nome_partito);
 				if(partito != null) {
-					candidato.setPartito(partito);
-					partito.aggiungiCandidato(candidato);
+					partito.aggiungiCandidato(new Candidato(nome, cognome));
 					partiti.update(partito);
-					candidati.createIfNotExists(candidato);
+					//candidati.create(new Candidato(nome, cognome, partito));
 					return true;
 				}
 				return false;
@@ -222,21 +224,96 @@ public class DbManager {
 		}
 		
 		/**
+		 * TODO
+		 * @param nome
+		 * @param dataInizio
+		 * @param dataFine
+		 * @param isAssoluta
+		 * @param tipoVotazione
+		 * @return
+		 */
+		public boolean aggiungiVotazione(String nome, Date dataInizio, 
+				Date dataFine, boolean isAssoluta, TipoVotazione tipoVotazione) {
+			Objects.requireNonNull(nome);
+			Objects.requireNonNull(dataInizio);
+			Objects.requireNonNull(dataFine);
+			Objects.requireNonNull(tipoVotazione);
+			
+			try {
+				if (votazioni.queryForMatching(new VotazioneClassica(nome, dataInizio, dataFine, isAssoluta, tipoVotazione)).size() > 0)
+					return true;
+					
+				votazioni.create(new VotazioneClassica(nome, dataInizio, dataFine, isAssoluta, tipoVotazione));
+				return true;
+			}catch(SQLException e) {
+				return false;
+			}
+		}
+		
+		/**
+		 * TODO
+		 * @param nome
+		 * @param dataInizio
+		 * @param dataFine
+		 * @param hasQuorum
+		 * @return
+		 */
+		public boolean aggiungiReferendum(String nome, Date dataInizio, 
+				Date dataFine, boolean hasQuorum) {
+			Objects.requireNonNull(nome);
+			Objects.requireNonNull(dataInizio);
+			Objects.requireNonNull(dataFine);
+			
+			try {
+				if (referendums.queryForMatching(new Referendum(nome, dataInizio, dataFine, hasQuorum)).size() > 0)
+					return true;
+				
+				referendums.create(new Referendum(nome, dataInizio, dataFine, hasQuorum));
+				return true;
+			}catch(SQLException e) {
+				return false;
+			}
+		}
+		
+		/**
 		 * 
 		 * @param votazione
 		 * @param partito
-		 * @return true se il partito è stato aggiungo alla votazione o era già partecipante,
-		 * 		false se viene sollevata una SQLException.
+		 * @return true se il partito è stato aggiungo alla votazione,
+		 * 		false se era già partecipante o viene sollevata una SQLException.
 		 * @throws NullPointerException se <b>votazione</b> o <b>partito</b> sono riferimento a null.
 		 */
 		public boolean registraPartecipazionePartito(VotazioneClassica votazione, Partito partito) {
 			Objects.requireNonNull(votazione);
 			Objects.requireNonNull(partito);
 			try {
-				if (votiPartiti.queryForMatching(new VotiPartito(votazione, partito)) != null)
-					return true;
+				
+				if (votiPartiti.queryForMatching(new VotiPartito(votazione, partito)).size() > 0)
+					return false;
 				
 				votiPartiti.create(new VotiPartito(votazione, partito));
+				return true;
+			}catch(SQLException e) {
+				return false;
+			}
+		}
+		
+		/**
+		 * 
+		 * @param votazione
+		 * @param candidato
+		 * @return true se il candidato è stato aggiungo alla votazione,
+		 * 		false se era già partecipante o viene sollevata una SQLException.
+		 * @throws NullPointerException se <b>votazione</b> o <b>partito</b> sono riferimento a null.
+		 */
+		public boolean registraPartecipazioneCandidato(VotazioneClassica votazione, Candidato candidato) {
+			Objects.requireNonNull(votazione);
+			Objects.requireNonNull(candidato);
+			try {
+				if (votiCandidati.queryForMatching(new VotiCandidato(votazione, candidato)).size() > 0)
+					return false;
+				
+				votiCandidati.create(new VotiCandidato(votazione, candidato));
 				return true;
 			}catch(SQLException e) {
 				return false;
@@ -272,10 +349,10 @@ public class DbManager {
 			Objects.requireNonNull(utente);
 			Objects.requireNonNull(votazione);
 			try {
-				if(votiVotazioni.queryForMatching(new Voti(votazione, utente)) != null)
+				if(votiVotazioni.queryForMatching(new Voti(votazione, utente)).size() > 0)
 					return false;
 				
-				votiVotazioni.createIfNotExists(new Voti(votazione, utente));
+				votiVotazioni.create(new Voti(votazione, utente));
 				return true;
 			}catch(SQLException e) {
 				return false;
@@ -318,21 +395,41 @@ public class DbManager {
 		 * @param partito
 		 * @return true se voto al partito registrato correttamente, 
 		 * 			false se non ci sono tuple corrispondenti o solleva SQLException.
-		 * @throws NullPointerExceptionse <b>votazione</b> o <b>partito</b> sono riferimetni a null.
+		 * @throws NullPointerExceptionse <b>votazione</b> o <b>partito</b> è riferimento a null.
 		 */
 		public boolean registraEsitoVotazione(VotazioneClassica votazione, Partito partito) {
 			Objects.requireNonNull(votazione);
 			Objects.requireNonNull(partito);
 			try {
 				 // da controllare il funzionamento
-				List<VotiPartito> vc = votiPartiti.queryForMatching(new VotiPartito(votazione, partito));
-				
-				if(vc.size() != 0) {
-					vc.get(0).aggiungiVoto();
-					votiPartiti.update(vc.get(0));
+				List<VotiPartito> vp = votiPartiti.queryForMatching(new VotiPartito(votazione, partito));
+				if(vp.size() != 0) {
+					vp.get(0).aggiungiVoto();
+					votiPartiti.update(vp.get(0));
+					votazione.aggiungiVoto();
+					votazioni.update(votazione);
 					return true;
 				}else
 					return false;
+			}catch(SQLException e) {
+				return false;
+			}
+		}
+		
+		/**
+		 * 
+		 * @param votazione
+		 * @param partito
+		 * @return true se voto al partito registrato correttamente, 
+		 * 			false se non ci sono tuple corrispondenti o solleva SQLException.
+		 * @throws NullPointerExceptionse <b>votazione</b> è riferimento a null.
+		 */
+		public boolean registraEsitoVotazione(VotazioneClassica votazione) {
+			Objects.requireNonNull(votazione);
+			try {
+				votazione.aggiungiBianca();
+				votazioni.update(votazione);
+				return true;
 			}catch(SQLException e) {
 				return false;
 			}
@@ -349,10 +446,10 @@ public class DbManager {
 			Objects.requireNonNull(utente);
 			Objects.requireNonNull(referendum);
 			try {
-				if(votiReferendum.queryForMatching(new VotiReferendum(referendum, utente)) != null)
+				if(votiReferendum.queryForMatching(new VotiReferendum(referendum, utente)).size() > 0)
 					return false;
 				
-				votiReferendum.createIfNotExists(new VotiReferendum(referendum, utente));
+				votiReferendum.create(new VotiReferendum(referendum, utente));
 				return true;
 			}catch(SQLException e) {
 				return false;
@@ -454,80 +551,81 @@ public class DbManager {
 			return null;
 		}
 		
-		/*
 	 	public void createFakeData() {
         try {
+        	
+        	System.out.println("CREO UTENTI #######");
+        	String pw1 = Hashing.sha256()
+        			.hashString("siuii420", StandardCharsets.UTF_8).toString();
+            Utente u1 = new Utente("BRTDNL98E27F205P", "Daniel", "Bartolomei", pw1);
+            
+            String pw2 = Hashing.sha256()
+        			.hashString("rennee2022", StandardCharsets.UTF_8).toString();
+            Utente u2 = new Utente("RVRSMN98A21F205Z", "Simone", "Rover", pw2);
 
-            Totem t1 = new Totem("Via Adios 14", 0, 0);
-            Totem t2 = new Totem("Via Vamos 12", 1, 2);
 
-            totems.create(t1);
-            totems.create(t2);
+            utenti.createIfNotExists(u1);
+            utenti.createIfNotExists(u2);
+            
+            System.out.println("FINE UTENTI #######");
+            
+            System.out.println("CREO VOTAZIONI #######");
 
-            Grip g11 = new Grip(t1, BikeType.standard, 0);
-            Grip g12 = new Grip(t1, BikeType.electric, 1);
-            Grip g13 = new Grip(t1, BikeType.electricBabySeat, 2);
+            VotazioneClassica vc = new VotazioneClassica("Elezioni", new Date(1662242400000L) 
+            		, new Date(1662760800000L), true, TipoVotazione.CATEGORICO);
+            
+            Referendum r = new Referendum("Energia Nucleare", new Date(1662242400000L) 
+            		, new Date(1662760800000L), true);
 
-            Grip g21 = new Grip(t2, BikeType.standard, 0);
-            Grip g22 = new Grip(t2, BikeType.electric, 1);
-            Grip g23 = new Grip(t2, BikeType.electricBabySeat, 2);
+            votazioni.create(vc);
+            referendums.create(r);
+            
+            System.out.println("FINE VOTAZIONI #######");
+            
+            System.out.println("CREO PARTITI #######");
+            
+            Partito p1 = new Partito("Cinque Stelle");
+            Partito p2 = new Partito("PD");
+            
+            partiti.create(p1);
+            partiti.create(p2);
+            
+            System.out.println("FINE PARTITI #######");
+            
+            System.out.println("CREO CANDIDATI #######");
+            
+            aggiungiCandidato("Mario", "Rossi", "Cinque Stelle");
+            aggiungiCandidato("Berto", "Pertici", "PD");
+            aggiungiCandidato("Normanno", "Tiraghi", "PD"); 
+            
+            System.out.println("FINE CANDIDATI #######");
 
-            Bike b1 = new Bike(BikeType.standard);
-            Bike b2 = new Bike(BikeType.electric);
-            Bike b3 = new Bike(BikeType.electricBabySeat);
-
-            bikes.create(b1);
-            bikes.create(b2);
-            bikes.create(b3);
-
-            grips.create(g11);
-            grips.create(g12);
-            grips.create(g13);
-            grips.create(g21);
-            grips.create(g22);
-            grips.create(g23);
-
-            g11.setBike(b1);
-            g12.setBike(b2);
-            g13.setBike(b3);
-
-            b1.setGrip(g11);
-            b2.setGrip(g12);
-            b3.setGrip(g13);
-
-            grips.update(g11);
-            grips.update(g12);
-            grips.update(g13);
-
-            bikes.update(b1);
-            bikes.update(b2);
-            bikes.update(b3);
-
-            Card card = new Card("1111111111111111", 444, DateUtils.oneYear());
-
-            cards.create(card);
-
-            Subscription admin = new Subscription("admin", SubscriptionType.admin, false);
-            Subscription normal = new Subscription("normal", SubscriptionType.week, false);
-            Subscription student = new Subscription("student", SubscriptionType.week, true);
-            Subscription expired = new Subscription("expired", SubscriptionType.day, true);
-            expired.setNumberOfExceed(3);
-
-            admin.setCard(card);
-            normal.setCard(card);
-            student.setCard(card);
-            expired.setCard(card);
-
-            subscriptions.create(admin);
-            subscriptions.create(normal);
-            subscriptions.create(student);
-            subscriptions.create(expired);
+        	
+            System.out.println("CREO PARTECIPAZIONI E VOTI #######");
+            
+            
+            registraPartecipazionePartito(vc, p1);
+            registraPartecipazionePartito(vc, p2);
+            
+            registraVotoReferendum(u1, r);
+            registraEsitoReferendum(r, TipoEsitoRef.FAVOREVOLE);
+            registraVotoReferendum(u2, r);
+            registraEsitoReferendum(r, TipoEsitoRef.BIANCA);
+            
+            registraVotoVotazione(u1, vc);
+            registraEsitoVotazione(vc, p1);
+            registraVotoVotazione(u2, vc);
+            registraEsitoVotazione(vc, p1);
+            
+            
+            System.out.println("FINE #######");
+            
+            
+            
         } catch (SQLException e) {
             System.out.println("Error");
         }
     }
-		 */
-		
-		
+				
 				
 }

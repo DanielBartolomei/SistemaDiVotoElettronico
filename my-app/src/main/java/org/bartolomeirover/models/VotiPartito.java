@@ -1,6 +1,5 @@
 package org.bartolomeirover.models;
 
-import java.util.Objects;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -11,10 +10,10 @@ public class VotiPartito {
 	@DatabaseField(generatedId = true)
 	private int id;
 
-	@DatabaseField(foreign = true, foreignColumnName = "id", uniqueCombo = true)
+	@DatabaseField(foreign = true, uniqueCombo = true, canBeNull = false)
 	private VotazioneClassica votazione;
 	
-	@DatabaseField(foreign = true, foreignColumnName = "id", uniqueCombo = true)
+	@DatabaseField(foreign = true, uniqueCombo = true, canBeNull = false)
 	private Partito partito;
 	
 	@DatabaseField
@@ -32,7 +31,7 @@ public class VotiPartito {
 	public VotiPartito(VotazioneClassica vc, Partito partito) {
 		this.votazione = vc;
 		this.partito = partito;
-		totVoti = 0;
+		totVoti = (long) 0;
 	}
 	
 	/**

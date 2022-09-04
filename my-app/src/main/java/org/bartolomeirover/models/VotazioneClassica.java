@@ -1,6 +1,6 @@
 package org.bartolomeirover.models;
 
-import java.util.GregorianCalendar;
+import java.sql.Date;
 import java.util.Objects;
 
 import com.j256.ormlite.field.DatabaseField;
@@ -28,16 +28,16 @@ public class VotazioneClassica  {
 	}
 	
 	@DatabaseField(canBeNull = false)
-	private GregorianCalendar dataInizio;
+	private Date dataInizio;
 	
-	public GregorianCalendar getInizio() {
+	public Date getInizio() {
 		return dataInizio;
 	}
 	
 	@DatabaseField(canBeNull = false)
-	private GregorianCalendar dataFine;
+	private Date dataFine;
 	
-	public GregorianCalendar getFine() {
+	public Date getFine() {
 		return dataFine;
 	}
 	
@@ -78,13 +78,12 @@ public class VotazioneClassica  {
 	
 	}
 	
-	public VotazioneClassica(int id, String nome,  GregorianCalendar dataInizio, GregorianCalendar dataFine, 
+	public VotazioneClassica(String nome,  Date dataInizio, Date dataFine, 
 			boolean isAssoluta, TipoVotazione tipoVotazione) {
 		Objects.requireNonNull(nome);
 		Objects.requireNonNull(dataInizio);
 		Objects.requireNonNull(dataFine);
 		
-		this.id = id;
 		this.nome = nome;
 		this.dataInizio = dataInizio;
 		this.dataFine = dataFine;
@@ -98,12 +97,12 @@ public class VotazioneClassica  {
 	 *  Other Methods
 	 */
 	
-	public void addVote() {
+	public void aggiungiVoto() {
 		totValidi += 1;
 		totVoti += 1;
 	}
 	
-	public void addBianca() {
+	public void aggiungiBianca() {
 		totVoti +=1;
 	}
 	

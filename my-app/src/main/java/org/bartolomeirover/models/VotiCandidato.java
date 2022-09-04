@@ -15,10 +15,10 @@ public class VotiCandidato {
 	@DatabaseField(generatedId = true)
 	private int id;
 
-	@DatabaseField(foreign = true, foreignColumnName = "id", uniqueCombo = true)
+	@DatabaseField(foreign = true, foreignColumnName = "id", uniqueCombo = true, canBeNull = false)
 	private VotazioneClassica votazione;
 	
-	@DatabaseField(foreign = true, foreignColumnName = "id", uniqueCombo = true)
+	@DatabaseField(foreign = true, foreignColumnName = "id", uniqueCombo = true, canBeNull = false)
 	private Candidato candidato;
 	
 	@DatabaseField
