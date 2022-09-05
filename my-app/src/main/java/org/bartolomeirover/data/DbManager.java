@@ -1,5 +1,6 @@
 package org.bartolomeirover.data;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.nio.charset.StandardCharsets;
@@ -119,7 +120,7 @@ public class DbManager {
 		
 		
 		/**
-		 *  DB operations
+		 * ######### DB operations #########
 		 */
 		
 		
@@ -177,19 +178,23 @@ public class DbManager {
 			}
 		}
 		
+		/**
+		 * ######### Data Creation Operations #########
+		 */
+		
 		
 		/**
 		 * 
 		 * @param nome
-		 * @return true se la creazione del partito è andata a buon fine o già era presente,
-		 * 		 false se è stata sollevata una SQLException.
+		 * @return true se la creazione del partito è andata a buon fine,
+		 * 		 false se già era presente o è stata sollevata una SQLException.
 		 * @throws NullPointerException se <b>nome</b> è un riferimento a null.
 		 */
 		public boolean aggiungiPartito(String nome) {
 			Objects.requireNonNull(nome);
 			try {
 				partiti.createIfNotExists(new Partito(nome));
-				return true;
+				return false;
 			}catch(SQLException e) {
 				return false;
 			}
@@ -224,13 +229,17 @@ public class DbManager {
 		}
 		
 		/**
-		 * TODO
+		 * 
 		 * @param nome
 		 * @param dataInizio
 		 * @param dataFine
 		 * @param isAssoluta
 		 * @param tipoVotazione
-		 * @return
+		 * @return true se la votazione è stata aggiunta correttamente, 
+		 * 		false se una votazione con le stesse caratteristiche è gia presente 
+		 * 			o se è stata sollevata una SQLException.
+		 * @throws NullPointerException se <b>nome</b>, <b>dataInizio</b>, 
+		 * 			<b>dataFine</b> o <b>tipoVotazione</b> sono riferimenti a null.
 		 */
 		public boolean aggiungiVotazione(String nome, Date dataInizio, 
 				Date dataFine, boolean isAssoluta, TipoVotazione tipoVotazione) {
@@ -240,8 +249,9 @@ public class DbManager {
 			Objects.requireNonNull(tipoVotazione);
 			
 			try {
-				if (votazioni.queryForMatching(new VotazioneClassica(nome, dataInizio, dataFine, isAssoluta, tipoVotazione)).size() > 0)
-					return true;
+				if (votazioni.queryForMatching(new VotazioneClassica(nome, dataInizio, 
+						dataFine, isAssoluta, tipoVotazione)).size() > 0)
+					return false;
 					
 				votazioni.create(new VotazioneClassica(nome, dataInizio, dataFine, isAssoluta, tipoVotazione));
 				return true;
@@ -251,12 +261,14 @@ public class DbManager {
 		}
 		
 		/**
-		 * TODO
 		 * @param nome
 		 * @param dataInizio
 		 * @param dataFine
 		 * @param hasQuorum
-		 * @return
+		 * @return true se la votazione è stata aggiunta correttamente, 
+		 * 		false se una votazione con le stesse caratteristiche è gia presente 
+		 * 			o se è stata sollevata una SQLException.
+		 * @throws NullPointerException se <b>nome</b>, <b>dataInizio</b> o <b>dataFine</b> sono riferimenti a null.
 		 */
 		public boolean aggiungiReferendum(String nome, Date dataInizio, 
 				Date dataFine, boolean hasQuorum) {
@@ -266,7 +278,7 @@ public class DbManager {
 			
 			try {
 				if (referendums.queryForMatching(new Referendum(nome, dataInizio, dataFine, hasQuorum)).size() > 0)
-					return true;
+					return false;
 				
 				referendums.create(new Referendum(nome, dataInizio, dataFine, hasQuorum));
 				return true;
@@ -274,6 +286,11 @@ public class DbManager {
 				return false;
 			}
 		}
+		
+		
+		/**
+		 * ######### Votes Operations #########
+		 */
 		
 		/**
 		 * 
@@ -475,6 +492,12 @@ public class DbManager {
 			}
 		}
 		
+		
+		/**
+		 * ######### Data Retrieve Operations #########
+		 */
+		
+		
 		/**
 		 * 
 		 * @param nome_partito
@@ -540,15 +563,43 @@ public class DbManager {
 				return null;
 			}
 		}
-		
+
+		/**
+		 * TODO
+		 * @param utente
+		 * @return
+		 */
 		public List<VotazioneClassica> getVotazioniUtente(Utente utente){
-			// TODO
-			return null;
+			try {
+				List<Voti> votiUtente = votiVotazioni.queryForEq("utente", utente.getCF());
+				
+				List<VotazioneClassica> v = new ArrayList<>();
+				for( int i=0; i<votiUtente.size(); i++) {
+					v.add(votazioni.queryForId(votiUtente.get(i).getId()));
+				}
+				return v;
+			}catch(SQLException e) {
+				return null;
+			}
 		}
 		
+		/**
+		 * TODO
+		 * @param utente
+		 * @return
+		 */
 		public List<Referendum> getReferendumUtente(Utente utente){
-			// TODO
-			return null;
+			try {
+				List<VotiReferendum> refUtente = votiReferendum.queryForEq("utente", utente.getCF());
+				
+				List<Referendum> r = new ArrayList<>();
+				for( int i=0; i<refUtente.size(); i++) {
+					r.add(referendums.queryForId(refUtente.get(i).getId()));
+				}
+				return r;
+			}catch(SQLException e) {
+				return null;
+			}
 		}
 		
 	 	public void createFakeData() {

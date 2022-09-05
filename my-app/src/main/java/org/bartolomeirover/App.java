@@ -23,7 +23,7 @@ public class App extends Application {
 
 		if (db.checkCreation()) {
         	System.out.println("OK");
-        	db.createFakeData();
+        	//db.createFakeData();
         }else {
         	System.out.println("NOT OK");
         }

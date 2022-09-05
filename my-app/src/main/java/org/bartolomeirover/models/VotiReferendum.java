@@ -9,6 +9,10 @@ public class VotiReferendum {
 	@DatabaseField(generatedId = true)
 	private int id;
 	
+	public Integer getId() {
+		return id;
+	}
+	
 	@DatabaseField(foreign = true, foreignColumnName = "id", uniqueCombo = true)
 	private Referendum referendum;
 	
@@ -39,6 +43,8 @@ public class VotiReferendum {
 		this.referendum = referendum;
 		this.utente = utente;
 	}
+
+	
 	
 	/**
 	 *  Other Methods

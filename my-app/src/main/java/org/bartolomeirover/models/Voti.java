@@ -13,10 +13,14 @@ public class Voti {
 	@DatabaseField(generatedId = true)
 	private int id;
 	
-	@DatabaseField(foreign = true)
+	public int getId() {
+		return id;
+	}
+	
+	@DatabaseField(foreign = true, uniqueCombo = true)
 	private VotazioneClassica votazione;
 	
-	@DatabaseField(foreign = true)
+	@DatabaseField(foreign = true, uniqueCombo = true)
 	private Utente utente;
 	
 	/**
@@ -31,6 +35,8 @@ public class Voti {
 		this.votazione = vc;
 		this.utente = utente;
 	}
+
+	
 	
 	/**
 	 *  Other Methods
