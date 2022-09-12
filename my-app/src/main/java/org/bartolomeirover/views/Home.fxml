@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane prefHeight="320.0" prefWidth="592.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.bartolomeirover.controllers.HomeController">
+   <children>
+      <Button fx:id="loginButton" layoutX="392.0" layoutY="178.0" mnemonicParsing="false" onAction="#goToLogin" prefHeight="50.0" prefWidth="136.0" text="Login" />
+      <Label layoutX="64.0" layoutY="74.0" text="Votazioni elettroniche" textAlignment="CENTER">
+         <font>
+            <Font size="48.0" />
+         </font>
+      </Label>
+      <Button fx:id="exitButton" layoutX="64.0" layoutY="178.0" mnemonicParsing="false" onAction="#exit" prefHeight="50.0" prefWidth="136.0" text="Esci" />
+      <Button fx:id="accessButton" layoutX="228.0" layoutY="178.0" mnemonicParsing="false" onAction="#goToAccess" prefHeight="50.0" prefWidth="136.0" text="Richiedi accesso" />
+   </children>
+</Pane>

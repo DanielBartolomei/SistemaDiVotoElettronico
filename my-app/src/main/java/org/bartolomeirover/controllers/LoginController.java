@@ -5,7 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
 
-public class LoginController extends Controller{
+public class LoginController extends Controller {
 	
 	private String username;
 	private String password;
