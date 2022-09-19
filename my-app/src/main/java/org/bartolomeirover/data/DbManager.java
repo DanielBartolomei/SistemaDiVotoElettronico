@@ -563,6 +563,8 @@ public class DbManager {
 				return null;
 			}
 		}
+		
+		//public List<>
 
 		/**
 		 * TODO
@@ -608,11 +610,11 @@ public class DbManager {
         	System.out.println("CREO UTENTI #######");
         	String pw1 = Hashing.sha256()
         			.hashString("siuii420", StandardCharsets.UTF_8).toString();
-            Utente u1 = new Utente("BRTDNL98E27F205P", "Daniel", "Bartolomei", pw1);
+            Utente u1 = new Utente("BRTDNL98E27F205P", pw1, "Daniel", "Bartolomei");
             
             String pw2 = Hashing.sha256()
         			.hashString("rennee2022", StandardCharsets.UTF_8).toString();
-            Utente u2 = new Utente("RVRSMN98A21F205Z", "Simone", "Rover", pw2);
+            Utente u2 = new Utente("RVRSMN98A21F205Z", pw2, "Simone", "Rover");
 
 
             utenti.createIfNotExists(u1);
