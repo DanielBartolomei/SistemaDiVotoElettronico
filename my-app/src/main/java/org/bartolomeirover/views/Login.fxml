@@ -11,7 +11,7 @@
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="328.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.bartolomeirover.controllers.LoginController">
    <children>
       <Button fx:id="loginButton" layoutX="276.0" layoutY="242.0" mnemonicParsing="false" onAction="#login" text="Log in" />
-      <Label layoutX="179.0" layoutY="60.0" text="Schermata di Login">
+      <Label fx:id="titleLabel" layoutX="179.0" layoutY="60.0" text="Schermata di Login">
          <font>
             <Font name="Arial" size="28.0" />
          </font>

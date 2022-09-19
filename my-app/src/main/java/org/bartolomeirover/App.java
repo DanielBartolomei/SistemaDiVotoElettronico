@@ -19,7 +19,7 @@ public class App extends Application {
 	private static Scene scene;
 
 	@Override
-	public void start(Stage stage) throws IOException{
+	public void start(Stage stage) throws IOException {
 		DbManager db = DbManager.getInstance();
 
 		if (db.checkCreation()) {
@@ -29,15 +29,21 @@ public class App extends Application {
         	System.out.println("NOT OK");
         }
 		
-		this.scene = new Scene(loadView("Home"));
-        stage.setScene(scene);
-        stage.setTitle("Votazioni elettroniche");
-        stage.show();
+		try {
+			this.scene = new Scene(loadView("Home"));
+	        stage.setScene(scene);
+	        stage.setTitle("Votazioni elettroniche");
+	        stage.show();
+	        
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public static Parent loadView(String view) throws IOException {
 		FXMLLoader loader = new FXMLLoader(App.class.getResource("views/" + view + ".fxml"));
-		Pane root = loader.load();
+		Parent root = loader.load();
         System.out.println("View" + view + "loaded");
         return root;
     }
