@@ -31,10 +31,9 @@ public class LoginController extends Controller {
 		
 		DbManager db = DbManager.getInstance();
 		
-		Utente toBeLogged = db.autentica(usernameField.getText(), Hashing.sha256().hashString(passwordField.getText() , StandardCharsets.UTF_8).toString());
+		Utente toBeLogged = db.autentica(usernameField.getText().toUpperCase(), Hashing.sha256().hashString(passwordField.getText() , StandardCharsets.UTF_8).toString());
 		if (toBeLogged == null) {
 			System.out.println("Utente non trovato");
-			usernameField.setText("");
 			passwordField.setText("");
 			adminCheck.setSelected(false);
 		} else {
