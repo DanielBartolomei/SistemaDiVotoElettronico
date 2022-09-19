@@ -24,7 +24,7 @@ public class HomeController extends Controller {
 	}
 	
 	public void goToAccess(ActionEvent e) {
-		System.out.println("You cannot get access");
+		navigate("Registrazione");
 	}
 	
 	public void exit(ActionEvent e) {
@@ -36,7 +36,7 @@ public class HomeController extends Controller {
 		
 		if (alert.showAndWait().get() == ButtonType.OK) {
 			stage = (Stage) homePane.getScene().getWindow();
-			System.out.println("You successfully exited");
+			System.out.println("Program exited");
 			stage.close();
 		}
 		

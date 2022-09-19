@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="328.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.bartolomeirover.controllers.LoginController">
+<Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="328.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.bartolomeirover.controllers.LoginController">
    <children>
-      <Button fx:id="loginButton" layoutX="276.0" layoutY="242.0" mnemonicParsing="false" onAction="#login" text="Log in" />
+      <Button fx:id="loginButton" layoutX="319.0" layoutY="242.0" mnemonicParsing="false" onAction="#login" prefHeight="25.0" prefWidth="56.0" text="Log in" />
       <Label fx:id="titleLabel" layoutX="179.0" layoutY="60.0" text="Schermata di Login">
          <font>
             <Font name="Arial" size="28.0" />
@@ -21,5 +21,6 @@
       <Label layoutX="143.0" layoutY="138.0" text="Codice fiscale" />
       <Label layoutX="165.0" layoutY="179.0" text="Password" />
       <CheckBox fx:id="adminCheck" layoutX="392.0" layoutY="138.0" mnemonicParsing="false" text="Admin" />
+      <Button fx:id="annullaButton" layoutX="226.0" layoutY="242.0" mnemonicParsing="false" onAction="#back" text="Annulla" />
    </children>
 </Pane>

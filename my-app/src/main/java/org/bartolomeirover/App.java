@@ -8,18 +8,24 @@ import org.bartolomeirover.App;
 import org.bartolomeirover.common.Controller;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class App extends Application {
 	
 	private static Scene scene;
 
 	@Override
-	public void start(Stage stage) throws IOException {
+	public void start(final Stage stage) throws IOException {
 		DbManager db = DbManager.getInstance();
 
 		if (db.checkCreation()) {
@@ -33,7 +39,16 @@ public class App extends Application {
 			this.scene = new Scene(loadView("Home"));
 	        stage.setScene(scene);
 	        stage.setTitle("Votazioni elettroniche");
+	        stage.sizeToScene();
 	        stage.show();
+	        
+	        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+				@Override
+				public void handle(WindowEvent event) {
+					event.consume();
+					exit(stage);
+				}
+			});
 	        
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -64,11 +79,25 @@ public class App extends Application {
     public static void navigate(Controller sender, String view, Object parameter) throws IOException {
         Parent parent = loadView(sender, view, parameter);
         scene.setRoot(parent);
+        scene.getWindow().sizeToScene();
     }
 
     public static void navigate(Controller sender, String view) throws IOException {
         navigate(sender, view, null);
     }
+    
+    public void exit(Stage stage) {
+		
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Chiusura programma");
+		alert.setHeaderText("Stai per chiudere il programma di votazione");
+		alert.setContentText("Sei sicuro?");
+		
+		if (alert.showAndWait().get() == ButtonType.OK) {
+			System.out.println("You successfully exited");
+			stage.close();
+		}
+	}
 	
 	public static void main(String[] args) {
 		launch(args);

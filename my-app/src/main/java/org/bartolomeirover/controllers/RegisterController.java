@@ -9,4 +9,8 @@ public class RegisterController extends Controller {
 		System.out.println("You pressed the register button");
 	}
 	
+	public void back(ActionEvent event) {
+		navigate("Home");
+	}
+	
 }
