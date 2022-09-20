@@ -1,13 +1,10 @@
 package org.bartolomeirover.models;
 
-import java.util.GregorianCalendar;
+import java.time.LocalDate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public final class CodiceFiscale {	
-	
-	private CodiceFiscale() {
-		
-	}
-	
 	
 	public static String getSesso(String codice) {
 		String s = codice.substring(9, 11); 
@@ -19,7 +16,7 @@ public final class CodiceFiscale {
 		}
 	}
 	
-	public static GregorianCalendar getDataDiNascita(String codice) {
+	public static LocalDate getDataDiNascita(String codice) {
 		String s = codice.substring(8, 11);
 
 		String mese = s.charAt(0) + "";
@@ -69,7 +66,28 @@ public final class CodiceFiscale {
 			default:
 				m = 1;
 		}
-		return new GregorianCalendar(Integer.valueOf(codice.substring(6,8)), m, giorno);
+		
+		if (Integer.valueOf(codice.substring(6,8)) < 10) {
+			return LocalDate.of(Integer.valueOf("20" + codice.substring(6,8)), m, giorno);
+		} else {
+			return LocalDate.of(Integer.valueOf("19" + codice.substring(6,8)), m, giorno);
+		}
+		
+	}
+	
+	/**
+	 * Returns true if <b>codice</b> is a correctly formatted CF, false otherwise.
+	 * @param codice
+	 * @return boolean
+	 */
+	public static boolean checkCF(String codice) {
+		
+		String rx = "\\D\\D\\D\\D\\D\\D\\d\\d\\D\\d\\d\\D\\d\\d\\d\\D";
+		String rxx = "[A-Za-z]{6}[0-9]{2}[A-Za-z]{1}[0-9]{2}[A-Za-z]{1}[0-9]{3}[A-Za-z]{1}";
+		Pattern pt = Pattern.compile(rxx);
+		Matcher mt = pt.matcher(codice);
+		
+		return mt.matches();
 	}
 	
 }

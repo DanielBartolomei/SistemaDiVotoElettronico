@@ -32,9 +32,20 @@ public class RegisterController extends Controller {
 		passwordField.setText("");
 		passwordRepeatField.setText("");
 		
+		if (cfField.getText().equals("")) {
+			passwordField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+		} else {
+			passwordField.setStyle("");
+		}
+		
 		if (!passwordField.getText().equals(passwordRepeatField.getText())) {
 			System.out.println("Le password non combaciano!");
+			passwordField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+			passwordRepeatField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
 			return;
+		} else {
+			passwordField.setStyle("");
+			passwordRepeatField.setStyle("");
 		}
 		
 		DbManager db = DbManager.getInstance();
