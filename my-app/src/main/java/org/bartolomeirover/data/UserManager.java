@@ -16,6 +16,11 @@ public class UserManager {
 		return _instance;
 	}
 	
+	/**
+	 * TODO
+	 * @param cf
+	 * @return
+	 */
 	public static boolean isValidVoter(String cf){
 		// TODO
 		return true;

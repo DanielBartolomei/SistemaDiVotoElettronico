@@ -5,7 +5,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "votiPartito")
-public class VotiPartito {
+public class VotiPartito implements Comparable<VotiPartito>{
 	
 	@DatabaseField(generatedId = true)
 	private int id;
@@ -13,11 +13,20 @@ public class VotiPartito {
 	@DatabaseField(foreign = true, uniqueCombo = true, canBeNull = false)
 	private VotazioneClassica votazione;
 	
+	
 	@DatabaseField(foreign = true, uniqueCombo = true, canBeNull = false)
 	private Partito partito;
 	
+	public Partito getPartito() {
+		return partito;
+	}
+	
 	@DatabaseField
 	private long totVoti;
+	
+	public long getVoti() {
+		return totVoti;
+	}
 	
 	
 	/**
@@ -40,6 +49,17 @@ public class VotiPartito {
 	
 	public void aggiungiVoto() {
 		totVoti += 1;
+	}
+	
+	public void aggiungiVoto(int pos) {
+		totVoti += pos;
+	}
+
+	@Override
+	public int compareTo(VotiPartito o) {
+		if( this.totVoti < o.totVoti ) return 1;
+		if( this.totVoti > o.totVoti ) return -1;
+		return 0;
 	}
 	
 }

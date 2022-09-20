@@ -15,17 +15,41 @@ public class DateUtils {
 	
 	public DateUtils() {}
 	
+	/**
+	 * TODO
+	 * @param ld
+	 * @return
+	 */
 	public static String fromLocalDateToString(LocalDate ld) {
 		String fs = ld.format(formatter);
 		return fs;
 	}
 	
+	/**
+	 * TODO
+	 * @param s
+	 * @return
+	 */
 	public static LocalDate fromStringToLocalDate(String s) {
 		return LocalDate.parse(s, formatter);
 	}
 	
+	/**
+	 * TODO
+	 * @return
+	 */
 	public static LocalDate now() {
 		return LocalDate.now();
+	}
+	
+	/**
+	 * TODO
+	 * @param date
+	 * @return
+	 */
+	public static boolean hasEnded(String date) {
+		LocalDate ld = LocalDate.parse(date, formatter);
+		return ld.isBefore(LocalDate.now());
 	}
 	
 	

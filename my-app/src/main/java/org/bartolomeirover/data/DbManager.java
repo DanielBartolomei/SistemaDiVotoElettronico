@@ -1,7 +1,9 @@
 package org.bartolomeirover.data;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
@@ -345,23 +347,6 @@ public class DbManager {
 			}
 		}
 		
-		/*
-		public boolean controllaPartecipazionePartito(VotazioneClassica votazione, Partito partito) {
-			Objects.requireNonNull(votazione);
-			try {
-				Map<String, Object> fields = new HashMap<>();
-				fields.put("partito", partito);
-				fields.put("votazione", votazione);
-				if(votiPartiti.queryForFieldValues(fields) != null)
-					return true;
-				else
-					return false;
-			}catch(SQLException e) {
-				return false;
-			}
-		}
-		*/
-		
 		/**
 		 * 
 		 * @param utente
@@ -398,7 +383,6 @@ public class DbManager {
 			Objects.requireNonNull(votazione);
 			Objects.requireNonNull(candidato);
 			try {
-				 // da controllare il funzionamento
 				List<VotiCandidato> vc = votiCandidati.queryForMatching(new VotiCandidato(votazione, candidato));
 				
 				if(vc.size() != 0) {
@@ -662,6 +646,72 @@ public class DbManager {
 					r.add(referendums.queryForId(refUtente.get(i).getId()));
 				}
 				return r;
+			}catch(SQLException e) {
+				return null;
+			}
+		}
+		
+		/**
+		 * TODO
+		 * @param vc
+		 * @return
+		 */
+		public Map<Partito, Integer> getPartitoVincitore(VotazioneClassica v){
+			Objects.requireNonNull(v);
+			
+			// forse questo controllo va fatto prima di questa invocazione
+			if(!DateUtils.hasEnded(v.getFine())){
+				return null;
+			}
+			
+			try {
+				List<VotiPartito> vp = votiPartiti.queryForEq("votazione_id", v.getId());
+				if(vp.size() == 0) return new HashMap<>();
+				vp.sort(null);
+				return VotesManager.getVincitorePartito(vp, v.getTipo());	
+			}catch(SQLException e) {
+				return null;
+			}
+		}
+		
+		/**
+		 * TODO
+		 * @param vc
+		 * @param p
+		 * @return
+		 */
+		public List<Candidato> getVotiCandidatiPartito(VotazioneClassica v, Partito p){
+			Objects.requireNonNull(v);
+			Objects.requireNonNull(p);
+			try {
+				List<VotiCandidato> vc = votiCandidati.queryForEq("votazione_id", v.getId());
+				if(vc.size() == 0) return null;
+				vc.sort(null);
+							
+				return VotesManager.getPreferenze(vc, p);	
+			}catch(SQLException e) {
+				return null;
+			}
+		}
+		
+		/**
+		 * TODO
+		 * @param v
+		 * @return
+		 */
+		public Map<Candidato, Integer> getCandidatoVincitore(VotazioneClassica v){
+			Objects.requireNonNull(v);
+			
+			// forse questo controllo va fatto prima di questa invocazione
+			if(!DateUtils.hasEnded(v.getFine())){
+				return null;
+			}
+			
+			try {
+				List<VotiCandidato> vc = votiCandidati.queryForEq("votazione_id", v.getId());
+				if(vc.size() == 0) return new HashMap<>();
+				vc.sort(null);
+				return VotesManager.getVincitoreCandidato(vc, v.getTipo());	
 			}catch(SQLException e) {
 				return null;
 			}
