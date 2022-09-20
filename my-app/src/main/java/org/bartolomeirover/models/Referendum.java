@@ -8,7 +8,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "referendum")
-public class Referendum{
+public class Referendum implements Comparable<Referendum>{
 	
 	/**
 	 *  Fields and Getters
@@ -110,5 +110,10 @@ public class Referendum{
 				break;
 		}
 		totVoti +=1;
+	}
+
+	@Override
+	public int compareTo(Referendum r) {
+		return this.dataInizio.compareTo(r.dataInizio);
 	}
 }

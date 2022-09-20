@@ -6,7 +6,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "votazione")
-public class VotazioneClassica  {
+public class VotazioneClassica implements Comparable<VotazioneClassica> {
 	
 	/**
 	 *  Fields and Getters
@@ -103,6 +103,11 @@ public class VotazioneClassica  {
 	
 	public void aggiungiBianca() {
 		totVoti +=1;
+	}
+	
+	@Override
+	public int compareTo(VotazioneClassica r) {
+		return this.dataInizio.compareTo(r.dataInizio);
 	}
 	
 	
