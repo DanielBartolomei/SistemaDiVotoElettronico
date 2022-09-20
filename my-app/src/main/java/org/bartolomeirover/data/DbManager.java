@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.nio.charset.StandardCharsets;
-import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.sql.SQLException;
 
 import com.google.common.hash.Hashing;
@@ -130,8 +131,8 @@ public class DbManager {
 		 * @param hashPassword
 		 * @param nome
 		 * @param cognome
-		 * @return utente registrato se tupla aggiunta correttamente o se già presente nel db, 
-		 * 		null se credenziali non approvate da AgiD o se è sollevata una SQLException.
+		 * @return utente registrato se tupla aggiunta correttamente, 
+		 * 		null se credenziali non approvate da AgiD, se utente gia registrato o se è sollevata una SQLException.
 		 * @throws NullPointerException se <b>cf</b>, <b>hashPassword</b>, <b>nome</b>, <b>cognome</b> sono riferimenti a null.
 		 */
 		public Utente registra(String cf, String hashPassword, String nome, String cognome) {
@@ -141,6 +142,10 @@ public class DbManager {
 			Objects.requireNonNull(cognome);
 			try {
 				Utente utente = new Utente(cf, hashPassword, nome, cognome);
+				if ( utenti.queryForId(cf) != null ) {
+					return null;
+				}
+				
 				if(UserManager.isApprovedByAgiD(utente)) {
 					utente.setAdmin(UserManager.isApprovedAdmin(utente.getCF()));					
 					return utenti.createIfNotExists(utente);
@@ -564,7 +569,6 @@ public class DbManager {
 			}
 		}
 		
-		//public List<>
 
 		/**
 		 * TODO
@@ -623,12 +627,13 @@ public class DbManager {
             System.out.println("FINE UTENTI #######");
             
             System.out.println("CREO VOTAZIONI #######");
-
+            
+            /*
             VotazioneClassica vc = new VotazioneClassica("Elezioni", new Date(1662242400000L) 
             		, new Date(1662760800000L), true, TipoVotazione.CATEGORICO);
             
             Referendum r = new Referendum("Energia Nucleare", new Date(1662242400000L) 
-            		, new Date(1662760800000L), true);
+            		, new Date(1662760800000L), true);*/
 
             votazioni.create(vc);
             referendums.create(r);

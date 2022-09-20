@@ -3,7 +3,10 @@ package org.bartolomeirover;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.bartolomeirover.data.DbManager;
+import org.bartolomeirover.models.Referendum;
+import org.bartolomeirover.models.TipoVotazione;
 import org.bartolomeirover.models.Utente;
+import org.bartolomeirover.models.VotazioneClassica;
 
 import com.google.common.hash.Hashing;
 
@@ -54,16 +57,19 @@ public class DbTests {
     	assertNotNull(u);
     }
     
-    @DisplayName("Test Voto Referendum")
+    @DisplayName("Test New Referendum")
     @Test
     void testVotoReferendum() {
-    	//TODO
+    	Date inizio = new Date(System.currentTimeMillis());
+    	
+        //db.aggiungiReferendum("Risparmio Energetico", new Date(System.currentTimeMillis()) );
+    	
     }
     
-    @DisplayName("Test Voto Votazione Classica")
+    @DisplayName("Test New Votazione Classica")
     @Test
     void testVotoVotazione() {
-    	//TODO
+    	//db.aggiungiVotazione("Votazione Comunale", new Date(), null, false, null)
     }
     
     

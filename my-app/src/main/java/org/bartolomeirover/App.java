@@ -2,6 +2,9 @@ package org.bartolomeirover;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Timestamp;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
 
 import org.bartolomeirover.data.DbManager;
 import org.bartolomeirover.App;
@@ -34,6 +37,12 @@ public class App extends Application {
         }else {
         	System.out.println("NOT OK");
         }
+		
+		/*LocalDate ld = LocalDate.of(2022, 9, 25); //LocalDate.now()
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
+		String fs = ld.format(formatter);
+        System.out.println(fs);*/
 		
 		try {
 			this.scene = new Scene(loadView("Home"));
