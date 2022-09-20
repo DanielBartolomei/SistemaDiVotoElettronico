@@ -3,6 +3,7 @@ package org.bartolomeirover.models;
 import java.sql.Date;
 import java.util.Objects;
 
+import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -28,16 +29,16 @@ public class Referendum{
 	}
 	
 	@DatabaseField(canBeNull = false)
-	private Date dataInizio;
+	private String dataInizio;
 	
-	public Date getInizio() {
+	public String getInizio() {
 		return dataInizio;
 	}
 	
 	@DatabaseField(canBeNull = false)
-	private Date dataFine;
+	private String dataFine;
 	
-	public Date getFine() {
+	public String getFine() {
 		return dataFine;
 	}
 	
@@ -77,8 +78,8 @@ public class Referendum{
 		
 	}
 	
-	public Referendum(String nome, Date dataInizio, 
-			Date dataFine, boolean hasQuorum) {
+	public Referendum(String nome, String dataInizio, 
+			String dataFine, boolean hasQuorum) {
 		Objects.requireNonNull(nome);
 		Objects.requireNonNull(dataInizio);
 		Objects.requireNonNull(dataFine);

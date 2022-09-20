@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.nio.charset.StandardCharsets;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
 import java.sql.SQLException;
 
 import com.google.common.hash.Hashing;
@@ -16,6 +15,7 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
 import org.bartolomeirover.models.*;
+import org.bartolomeirover.common.DateUtils;
 
 public class DbManager {
 
@@ -246,19 +246,20 @@ public class DbManager {
 		 * @throws NullPointerException se <b>nome</b>, <b>dataInizio</b>, 
 		 * 			<b>dataFine</b> o <b>tipoVotazione</b> sono riferimenti a null.
 		 */
-		public boolean aggiungiVotazione(String nome, Date dataInizio, 
-				Date dataFine, boolean isAssoluta, TipoVotazione tipoVotazione) {
+		public boolean aggiungiVotazione(String nome, LocalDate dataInizio, 
+				LocalDate dataFine, boolean isAssoluta, TipoVotazione tipoVotazione) {
 			Objects.requireNonNull(nome);
 			Objects.requireNonNull(dataInizio);
 			Objects.requireNonNull(dataFine);
 			Objects.requireNonNull(tipoVotazione);
 			
 			try {
-				if (votazioni.queryForMatching(new VotazioneClassica(nome, dataInizio, 
-						dataFine, isAssoluta, tipoVotazione)).size() > 0)
+				if (votazioni.queryForMatching(new VotazioneClassica(nome, DateUtils.fromLocalDateToString(dataInizio), 
+						DateUtils.fromLocalDateToString(dataFine), isAssoluta, tipoVotazione)).size() > 0)
 					return false;
 					
-				votazioni.create(new VotazioneClassica(nome, dataInizio, dataFine, isAssoluta, tipoVotazione));
+				votazioni.create(new VotazioneClassica(nome, DateUtils.fromLocalDateToString(dataInizio), 
+						DateUtils.fromLocalDateToString(dataFine), isAssoluta, tipoVotazione));
 				return true;
 			}catch(SQLException e) {
 				return false;
@@ -275,17 +276,19 @@ public class DbManager {
 		 * 			o se è stata sollevata una SQLException.
 		 * @throws NullPointerException se <b>nome</b>, <b>dataInizio</b> o <b>dataFine</b> sono riferimenti a null.
 		 */
-		public boolean aggiungiReferendum(String nome, Date dataInizio, 
-				Date dataFine, boolean hasQuorum) {
+		public boolean aggiungiReferendum(String nome, LocalDate dataInizio, 
+				LocalDate dataFine, boolean hasQuorum) {
 			Objects.requireNonNull(nome);
 			Objects.requireNonNull(dataInizio);
 			Objects.requireNonNull(dataFine);
 			
 			try {
-				if (referendums.queryForMatching(new Referendum(nome, dataInizio, dataFine, hasQuorum)).size() > 0)
+				if (referendums.queryForMatching(new Referendum(nome, DateUtils.fromLocalDateToString(dataInizio), 
+						DateUtils.fromLocalDateToString(dataFine), hasQuorum)).size() > 0)
 					return false;
 				
-				referendums.create(new Referendum(nome, dataInizio, dataFine, hasQuorum));
+				referendums.create(new Referendum(nome, DateUtils.fromLocalDateToString(dataInizio), 
+						DateUtils.fromLocalDateToString(dataFine), hasQuorum));
 				return true;
 			}catch(SQLException e) {
 				return false;
@@ -569,6 +572,28 @@ public class DbManager {
 			}
 		}
 		
+		/**
+		 * @return tutte le votazioni presenti nel database, null se solleva SQLException
+		 */
+		public List<VotazioneClassica> getAllVotazioni(){
+			try {
+				return votazioni.queryForAll();
+			}catch(SQLException e) {
+				return null;
+			}
+		}
+		
+		/**
+		 * @return tutti i referendum presenti nel database, null se solleva SQLException
+		 */
+		public List<Referendum> getAllReferendum(){
+			try {
+				return referendums.queryForAll();
+			}catch(SQLException e) {
+				return null;
+			}
+		}
+		
 
 		/**
 		 * TODO
@@ -634,9 +659,10 @@ public class DbManager {
             
             Referendum r = new Referendum("Energia Nucleare", new Date(1662242400000L) 
             		, new Date(1662760800000L), true);*/
-
+            /*
             votazioni.create(vc);
             referendums.create(r);
+            */
             
             System.out.println("FINE VOTAZIONI #######");
             
@@ -661,7 +687,7 @@ public class DbManager {
         	
             System.out.println("CREO PARTECIPAZIONI E VOTI #######");
             
-            
+           /* 
             registraPartecipazionePartito(vc, p1);
             registraPartecipazionePartito(vc, p2);
             
@@ -674,7 +700,7 @@ public class DbManager {
             registraEsitoVotazione(vc, p1);
             registraVotoVotazione(u2, vc);
             registraEsitoVotazione(vc, p1);
-            
+            */
             
             System.out.println("FINE #######");
             

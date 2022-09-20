@@ -1,6 +1,5 @@
 package org.bartolomeirover.models;
 
-import java.sql.Date;
 import java.util.Objects;
 
 import com.j256.ormlite.field.DatabaseField;
@@ -28,16 +27,16 @@ public class VotazioneClassica  {
 	}
 	
 	@DatabaseField(canBeNull = false)
-	private Date dataInizio;
+	private String dataInizio;
 	
-	public Date getInizio() {
+	public String getInizio() {
 		return dataInizio;
 	}
 	
 	@DatabaseField(canBeNull = false)
-	private Date dataFine;
+	private String dataFine;
 	
-	public Date getFine() {
+	public String getFine() {
 		return dataFine;
 	}
 	
@@ -78,7 +77,7 @@ public class VotazioneClassica  {
 	
 	}
 	
-	public VotazioneClassica(String nome,  Date dataInizio, Date dataFine, 
+	public VotazioneClassica(String nome,  String dataInizio, String dataFine, 
 			boolean isAssoluta, TipoVotazione tipoVotazione) {
 		Objects.requireNonNull(nome);
 		Objects.requireNonNull(dataInizio);
