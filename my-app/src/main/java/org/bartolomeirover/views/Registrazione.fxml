@@ -15,11 +15,11 @@
          </font>
       </Label>
       <TextField fx:id="nomeField" layoutX="177.0" layoutY="134.0" promptText="Nome" />
-      <TextField fx:id="textCognome" layoutX="177.0" layoutY="165.0" promptText="Cognome" />
-      <TextField fx:id="textCF" layoutX="177.0" layoutY="198.0" promptText="Codice fiscale" />
+      <TextField fx:id="cognomeField" layoutX="177.0" layoutY="165.0" promptText="Cognome" />
+      <TextField fx:id="cfField" layoutX="177.0" layoutY="198.0" promptText="Codice fiscale" />
       <Button fx:id="registraButton" layoutX="198.0" layoutY="367.0" mnemonicParsing="false" onAction="#register" prefHeight="35.0" prefWidth="107.0" text="Registrati" />
       <Button fx:id="annullaButton" layoutX="198.0" layoutY="411.0" mnemonicParsing="false" onAction="#back" prefHeight="25.0" prefWidth="107.0" text="Annulla" />
-      <PasswordField fx:id="textPassword" layoutX="177.0" layoutY="247.0" promptText="Password" />
-      <PasswordField fx:id="textPasswordRepeat" layoutX="177.0" layoutY="279.0" promptText="Ripeti password" />
+      <PasswordField fx:id="passwordField" layoutX="177.0" layoutY="247.0" promptText="Password" />
+      <PasswordField fx:id="passwordRepeatField" layoutX="177.0" layoutY="279.0" promptText="Ripeti password" />
    </children>
 </Pane>

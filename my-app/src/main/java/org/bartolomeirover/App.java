@@ -49,6 +49,7 @@ public class App extends Application {
 	        stage.setScene(scene);
 	        stage.setTitle("Votazioni elettroniche");
 	        stage.sizeToScene();
+	        stage.setResizable(false);
 	        stage.show();
 	        
 	        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -65,6 +66,7 @@ public class App extends Application {
 		
 	}
 	
+	
 	public static Parent loadView(String view) throws IOException {
 		FXMLLoader loader = new FXMLLoader(App.class.getResource("views/" + view + ".fxml"));
 		Parent root = loader.load();
@@ -72,10 +74,12 @@ public class App extends Application {
         return root;
     }
 
+	
     public static Parent loadView(Controller sender, String view) throws IOException {
         return loadView(sender, view, null);
     }
 
+    
     public static Parent loadView(Controller sender, String view, Object parameter) throws IOException {
         FXMLLoader loader = new FXMLLoader(App.class.getResource("views/" + view + ".fxml"));
         Parent parent = loader.load();
@@ -85,12 +89,14 @@ public class App extends Application {
         return parent;
     }
 
+    
     public static void navigate(Controller sender, String view, Object parameter) throws IOException {
         Parent parent = loadView(sender, view, parameter);
         scene.setRoot(parent);
         scene.getWindow().sizeToScene();
     }
 
+    
     public static void navigate(Controller sender, String view) throws IOException {
         navigate(sender, view, null);
     }

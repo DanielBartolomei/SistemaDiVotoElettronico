@@ -47,7 +47,7 @@ public class LoginController extends Controller {
 			System.out.println("Utente non trovato");
 			passwordField.setText("");
 			adminCheck.setSelected(false);
-			
+			// show user not found on form
 		} else {
 			if (adminCheck.isSelected() && toBeLogged.isAdmin()) {
 				navigate("PannelloAdmin");
