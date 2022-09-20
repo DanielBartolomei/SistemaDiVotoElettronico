@@ -24,6 +24,8 @@ public class DomainTests {
         assertTrue(u.getCF().length() == 16);
 	}
 	
+	@DisplayName("Test Validità Votante")
+    @Test
 	void testValidVoter() {
 		String cfUtente = "BRTSMN98B15F205Z";
 		

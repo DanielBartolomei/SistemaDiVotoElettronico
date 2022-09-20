@@ -53,20 +53,20 @@ public class DbTests {
     	assertNotNull(u);
     }
     
-    @DisplayName("Test New Referendum")
+    @DisplayName("Test Aggiunta Referendum")
     @Test
-    void testVotoReferendum() {
+    void testAggiungiReferendum() {
     	LocalDate inizio = LocalDate.of(2023, 02, 10);
     	LocalDate fine = LocalDate.of(2023, 02, 15);
         assertTrue(db.aggiungiReferendum("Risparmio Energetico", inizio, fine, true));
     }
     
-    @DisplayName("Test New Votazione Classica")
+    @DisplayName("Test Aggiunta Votazione Classica")
     @Test
-    void testVotoVotazione() {
+    void testAggiungiVotazione() {
     	LocalDate inizio = LocalDate.of(2023, 02, 10);
     	LocalDate fine = LocalDate.of(2023, 02, 15);
-    	assertTrue(db.aggiungiVotazione("Votazione Comunale", inizio, fine, false, TipoVotazione.CATEGORICO));
+    	assertTrue(db.aggiungiVotazione("Votazione Comunale", inizio, fine, false, TipoVotazione.CATEGORICO_PARTITI));
     }
     
     

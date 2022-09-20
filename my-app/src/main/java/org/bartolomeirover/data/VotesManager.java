@@ -132,7 +132,7 @@ public class VotesManager {
 	}
 	
 	/**
-	 * 
+	 * TODO
 	 * @param r
 	 * @return
 	 */
