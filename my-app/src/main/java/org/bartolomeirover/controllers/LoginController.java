@@ -27,16 +27,27 @@ public class LoginController extends Controller {
 	private Label titleLabel;
 	
 	public void login(ActionEvent event) {
-		System.out.println("You pressed the login button");
+		
+		
+		if (usernameField.getText().equals("")) {
+			usernameField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+		} else {
+			usernameField.setStyle("");
+		}
+		if (passwordField.getText().equals("")) {
+			passwordField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+		} else {
+			passwordField.setStyle("");
+		}
 		
 		DbManager db = DbManager.getInstance();
 		
-		Utente toBeLogged = db.autentica(usernameField.getText(), Hashing.sha256().hashString(passwordField.getText() , StandardCharsets.UTF_8).toString());
+		Utente toBeLogged = db.autentica(usernameField.getText().toUpperCase(), Hashing.sha256().hashString(passwordField.getText() , StandardCharsets.UTF_8).toString());
 		if (toBeLogged == null) {
 			System.out.println("Utente non trovato");
-			usernameField.setText("");
 			passwordField.setText("");
 			adminCheck.setSelected(false);
+			
 		} else {
 			if (adminCheck.isSelected() && toBeLogged.isAdmin()) {
 				navigate("PannelloAdmin");
