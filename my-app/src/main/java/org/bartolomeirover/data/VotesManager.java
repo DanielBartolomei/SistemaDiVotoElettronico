@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import org.bartolomeirover.common.DateUtils;
 import org.bartolomeirover.models.*;
 
 public class VotesManager {
@@ -128,6 +129,31 @@ public class VotesManager {
 	 */
 	public static boolean hasMaggioranzaAssoluta(VotazioneClassica v, int voti) {
 		return voti >= (v.getVotiTotali() / 2) + 1;
+	}
+	
+	/**
+	 * 
+	 * @param r
+	 * @return
+	 */
+	public String getEsitoReferendum(Referendum r) {
+		
+		if(!DateUtils.hasEnded(r.getFine())){
+			return null;
+		}
+		
+		if(r.hasQuorum()) {
+			long votanti = r.getVotiTotali();
+			if(r.getFavorevoli() >= (votanti / 2) +1) return "SI";
+			if(r.getContrari() >= (votanti / 2) + 1) return "NO";
+			return "Quorum dei votanti non raggiunto.";
+		} else {
+			long validi = r.getFavorevoli() + r.getContrari();
+			if(r.getFavorevoli() >= (validi / 2) +1) return "SI";
+			if(r.getContrari() >= (validi / 2) + 1) return "NO";
+			return "Quorum dei voti espressi non raggiunto.";
+		}
+		
 	}
 	
 	
