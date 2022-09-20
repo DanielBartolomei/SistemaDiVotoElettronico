@@ -27,7 +27,18 @@ public class LoginController extends Controller {
 	private Label titleLabel;
 	
 	public void login(ActionEvent event) {
-		System.out.println("You pressed the login button");
+		
+		
+		if (usernameField.getText().equals("")) {
+			usernameField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+		} else {
+			usernameField.setStyle("");
+		}
+		if (passwordField.getText().equals("")) {
+			passwordField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+		} else {
+			passwordField.setStyle("");
+		}
 		
 		DbManager db = DbManager.getInstance();
 		
@@ -36,6 +47,7 @@ public class LoginController extends Controller {
 			System.out.println("Utente non trovato");
 			passwordField.setText("");
 			adminCheck.setSelected(false);
+			
 		} else {
 			if (adminCheck.isSelected() && toBeLogged.isAdmin()) {
 				navigate("PannelloAdmin");
