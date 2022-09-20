@@ -6,7 +6,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "votazione")
-public class VotazioneClassica implements Comparable<VotazioneClassica> {
+public class VotazioneClassica implements Comparable<Object> {
 	
 	/**
 	 *  Fields and Getters
@@ -106,8 +106,15 @@ public class VotazioneClassica implements Comparable<VotazioneClassica> {
 	}
 	
 	@Override
-	public int compareTo(VotazioneClassica r) {
-		return this.dataInizio.compareTo(r.dataInizio);
+	public int compareTo(Object o) {
+		if(o instanceof Referendum) {
+			Referendum r = (Referendum)o;
+			return this.dataInizio.compareTo(r.getInizio());
+		} else {
+			VotazioneClassica vc = (VotazioneClassica)o;
+			return this.dataInizio.compareTo(vc.dataInizio);
+		}
+		
 	}
 	
 	

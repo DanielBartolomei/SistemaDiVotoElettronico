@@ -573,6 +573,38 @@ public class DbManager {
 		}
 		
 		/**
+		 * 
+		 * @param id
+		 * @return votazione associata all'id inserito, null se id non corrisponde a nessuna votazione.
+		 * @throws IllegalArgumentException se <b>id</b> < 0
+		 */
+		public VotazioneClassica findVotazione(int id){
+			if(id < 0) throw new IllegalArgumentException();
+			
+			try {
+				return votazioni.queryForId(id);
+			}catch(SQLException e) {
+				return null;
+			}
+		}
+		
+		/**
+		 * 
+		 * @param id
+		 * @return referendum associato all'id inserito, null se id non corrisponde a nessun referendum.
+		 * @throws IllegalArgumentException se <b>id</b> < 0
+		 */
+		public Referendum findReferendum(int id) {
+			if(id < 0) throw new IllegalArgumentException();
+			
+			try {
+				return referendums.queryForId(id);
+			}catch(SQLException e) {
+				return null;
+			}
+		}
+		
+		/**
 		 * @return tutte le votazioni presenti nel database, null se solleva SQLException
 		 */
 		public List<VotazioneClassica> getAllVotazioni(){
@@ -596,11 +628,12 @@ public class DbManager {
 		
 
 		/**
-		 * TODO
 		 * @param utente
-		 * @return
+		 * @return tutte le votazioni a cui l'utente ha partecipato, null se solleva SQLException
+		 * @throws NullPointerException se utente è riferimento a null
 		 */
 		public List<VotazioneClassica> getVotazioniUtente(Utente utente){
+			Objects.requireNonNull(utente);
 			try {
 				List<Voti> votiUtente = votiVotazioni.queryForEq("utente", utente.getCF());
 				
@@ -615,11 +648,12 @@ public class DbManager {
 		}
 		
 		/**
-		 * TODO
 		 * @param utente
-		 * @return
+		 * @return tutti i referendum a cui l'utente ha partecipato
+		 * @throws NullPointerException se utente è riferimento a null
 		 */
 		public List<Referendum> getReferendumUtente(Utente utente){
+			Objects.requireNonNull(utente);
 			try {
 				List<VotiReferendum> refUtente = votiReferendum.queryForEq("utente", utente.getCF());
 				
@@ -632,6 +666,7 @@ public class DbManager {
 				return null;
 			}
 		}
+		
 		
 	 	public void createFakeData() {
         try {

@@ -1,14 +1,12 @@
 package org.bartolomeirover.models;
 
-import java.sql.Date;
 import java.util.Objects;
 
-import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "referendum")
-public class Referendum implements Comparable<Referendum>{
+public class Referendum implements Comparable<Object>{
 	
 	/**
 	 *  Fields and Getters
@@ -113,7 +111,14 @@ public class Referendum implements Comparable<Referendum>{
 	}
 
 	@Override
-	public int compareTo(Referendum r) {
-		return this.dataInizio.compareTo(r.dataInizio);
+	public int compareTo(Object o) {
+		if(o instanceof Referendum) {
+			Referendum r = (Referendum)o;
+			return this.dataInizio.compareTo(r.dataInizio);
+		} else {
+			VotazioneClassica vc = (VotazioneClassica)o;
+			return this.dataInizio.compareTo(vc.getInizio());
+		}
+		
 	}
 }
