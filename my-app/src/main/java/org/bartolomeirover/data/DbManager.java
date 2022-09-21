@@ -242,13 +242,13 @@ public class DbManager {
 		 * @param dataFine
 		 * @param isAssoluta
 		 * @param tipoVotazione
-		 * @return true se la votazione è stata aggiunta correttamente, 
-		 * 		false se una votazione con le stesse caratteristiche è gia presente 
+		 * @return la votazione se è stata aggiunta correttamente, 
+		 * 		null se una votazione con le stesse caratteristiche è gia presente 
 		 * 			o se è stata sollevata una SQLException.
 		 * @throws NullPointerException se <b>nome</b>, <b>dataInizio</b>, 
 		 * 			<b>dataFine</b> o <b>tipoVotazione</b> sono riferimenti a null.
 		 */
-		public boolean aggiungiVotazione(String nome, LocalDate dataInizio, 
+		public VotazioneClassica aggiungiVotazione(String nome, LocalDate dataInizio, 
 				LocalDate dataFine, boolean isAssoluta, TipoVotazione tipoVotazione) {
 			Objects.requireNonNull(nome);
 			Objects.requireNonNull(dataInizio);
@@ -258,13 +258,15 @@ public class DbManager {
 			try {
 				if (votazioni.queryForMatching(new VotazioneClassica(nome, DateUtils.fromLocalDateToString(dataInizio), 
 						DateUtils.fromLocalDateToString(dataFine), isAssoluta, tipoVotazione)).size() > 0)
-					return false;
+					return null;
 					
-				votazioni.create(new VotazioneClassica(nome, DateUtils.fromLocalDateToString(dataInizio), 
-						DateUtils.fromLocalDateToString(dataFine), isAssoluta, tipoVotazione));
-				return true;
+				VotazioneClassica vc = new VotazioneClassica(nome, DateUtils.fromLocalDateToString(dataInizio), 
+						DateUtils.fromLocalDateToString(dataFine), isAssoluta, tipoVotazione);
+				votazioni.create(vc);
+				votazioni.refresh(vc);
+				return vc;
 			}catch(SQLException e) {
-				return false;
+				return null;
 			}
 		}
 		
