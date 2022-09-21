@@ -51,7 +51,11 @@ public class CreaAmministrativaPartitiController extends Controller implements I
 		
 		// 3. Registra partecipazione dei partiti alla votazione
 		List<Partito> partecipanti = partecipantiList.getItems();
+		for (Partito partito : partecipanti) {
+			db.registraPartecipazionePartito(vc, partito);
+		}
 		
+		navigate("PannelloAdmin");
 	}
 	
 	public void back(ActionEvent event) {
@@ -59,11 +63,16 @@ public class CreaAmministrativaPartitiController extends Controller implements I
 	}
 	
 	public void insert(ActionEvent event) {
-		
+		Partito selezionato = partitiList.getSelectionModel().getSelectedItem();
+		if (selezionato == null) return;
+		if (!partecipantiList.getItems().contains(selezionato)) {
+			partecipantiList.getItems().add(selezionato);
+		}
 	}
 	
 	public void delete(ActionEvent event) {
-		
+		if (partecipantiList.getSelectionModel().getSelectedItem() == null) return;
+		partecipantiList.getItems().remove(partecipantiList.getSelectionModel().getSelectedItem());
 	}
 
 	private void populateList() {
