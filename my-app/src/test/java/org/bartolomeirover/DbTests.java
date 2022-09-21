@@ -58,7 +58,7 @@ public class DbTests {
     void testAggiungiReferendum() {
     	LocalDate inizio = LocalDate.of(2023, 02, 10);
     	LocalDate fine = LocalDate.of(2023, 02, 15);
-        assertTrue(db.aggiungiReferendum("Risparmio Energetico", inizio, fine, true));
+        assertTrue(db.aggiungiReferendum("Risparmio Energetico", "Lasciare spenti i caloriferi fino al 5 novembre.", inizio, fine, true));
     }
     
     @DisplayName("Test Aggiunta Votazione Classica")

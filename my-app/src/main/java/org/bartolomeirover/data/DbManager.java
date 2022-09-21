@@ -739,16 +739,14 @@ public class DbManager {
             
             System.out.println("CREO VOTAZIONI #######");
             
-            /*
-            VotazioneClassica vc = new VotazioneClassica("Elezioni", new Date(1662242400000L) 
-            		, new Date(1662760800000L), true, TipoVotazione.CATEGORICO);
+            VotazioneClassica vc = new VotazioneClassica("Elezioni", DateUtils.fromLocalDateToString(LocalDate.of(2023, 02, 10)) 
+            		, DateUtils.fromLocalDateToString(LocalDate.of(2023, 02, 15)), true, TipoVotazione.CATEGORICO_PARTITI);
             
-            Referendum r = new Referendum("Energia Nucleare", new Date(1662242400000L) 
-            		, new Date(1662760800000L), true);*/
-            /*
+            Referendum r = new Referendum("Energia Nucleare", "Usare energia nucleare come fonte principale di energia.", DateUtils.fromLocalDateToString(LocalDate.of(2023, 02, 10)) 
+            		, DateUtils.fromLocalDateToString(LocalDate.of(2023, 02, 15)), true);
+            
             votazioni.create(vc);
             referendums.create(r);
-            */
             
             System.out.println("FINE VOTAZIONI #######");
             
@@ -773,7 +771,7 @@ public class DbManager {
         	
             System.out.println("CREO PARTECIPAZIONI E VOTI #######");
             
-           /* 
+
             registraPartecipazionePartito(vc, p1);
             registraPartecipazionePartito(vc, p2);
             
@@ -786,7 +784,6 @@ public class DbManager {
             registraEsitoVotazione(vc, p1);
             registraVotoVotazione(u2, vc);
             registraEsitoVotazione(vc, p1);
-            */
             
             System.out.println("FINE #######");
             
