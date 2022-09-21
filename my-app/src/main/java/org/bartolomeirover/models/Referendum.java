@@ -26,6 +26,13 @@ public class Referendum implements Comparable<Object>{
 		return nome;
 	}
 	
+	@DatabaseField
+	private String quesito;
+	
+	public String getQuesito() {
+		return quesito;
+	}
+	
 	@DatabaseField(canBeNull = false)
 	private String dataInizio;
 	
@@ -76,13 +83,15 @@ public class Referendum implements Comparable<Object>{
 		
 	}
 	
-	public Referendum(String nome, String dataInizio, 
+	public Referendum(String nome, String quesito, String dataInizio, 
 			String dataFine, boolean hasQuorum) {
 		Objects.requireNonNull(nome);
+		Objects.requireNonNull(quesito);
 		Objects.requireNonNull(dataInizio);
 		Objects.requireNonNull(dataFine);
 		
 		this.nome = nome;
+		this.quesito = quesito;
 		this.dataInizio = dataInizio;
 		this.dataFine = dataFine;
 		this.hasQuorum = hasQuorum;

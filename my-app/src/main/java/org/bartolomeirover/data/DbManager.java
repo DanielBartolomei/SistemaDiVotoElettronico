@@ -278,18 +278,19 @@ public class DbManager {
 		 * 			o se è stata sollevata una SQLException.
 		 * @throws NullPointerException se <b>nome</b>, <b>dataInizio</b> o <b>dataFine</b> sono riferimenti a null.
 		 */
-		public boolean aggiungiReferendum(String nome, LocalDate dataInizio, 
+		public boolean aggiungiReferendum(String nome, String quesito, LocalDate dataInizio, 
 				LocalDate dataFine, boolean hasQuorum) {
 			Objects.requireNonNull(nome);
+			Objects.requireNonNull(quesito);
 			Objects.requireNonNull(dataInizio);
 			Objects.requireNonNull(dataFine);
 			
 			try {
-				if (referendums.queryForMatching(new Referendum(nome, DateUtils.fromLocalDateToString(dataInizio), 
+				if (referendums.queryForMatching(new Referendum(nome, quesito, DateUtils.fromLocalDateToString(dataInizio), 
 						DateUtils.fromLocalDateToString(dataFine), hasQuorum)).size() > 0)
 					return false;
 				
-				referendums.create(new Referendum(nome, DateUtils.fromLocalDateToString(dataInizio), 
+				referendums.create(new Referendum(nome, quesito, DateUtils.fromLocalDateToString(dataInizio), 
 						DateUtils.fromLocalDateToString(dataFine), hasQuorum));
 				return true;
 			}catch(SQLException e) {
