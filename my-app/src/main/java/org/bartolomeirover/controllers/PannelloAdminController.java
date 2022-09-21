@@ -11,6 +11,6 @@ public class PannelloAdminController extends Controller {
 	}
 	
 	public void goToCreaVotazione(ActionEvent event) {
-		navigate("CreaVotazione1");
+		navigate("CreaVotazione");
 	}
 }

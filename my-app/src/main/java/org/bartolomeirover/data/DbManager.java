@@ -287,13 +287,17 @@ public class DbManager {
 			
 			try {
 				if (referendums.queryForMatching(new Referendum(nome, quesito, DateUtils.fromLocalDateToString(dataInizio), 
-						DateUtils.fromLocalDateToString(dataFine), hasQuorum)).size() > 0)
+						DateUtils.fromLocalDateToString(dataFine), hasQuorum)).size() > 0) {
+					System.out.println("DbManager: Cannot create referendum (already exists");
 					return false;
+				}
+					
 				
 				referendums.create(new Referendum(nome, quesito, DateUtils.fromLocalDateToString(dataInizio), 
 						DateUtils.fromLocalDateToString(dataFine), hasQuorum));
 				return true;
 			}catch(SQLException e) {
+				e.printStackTrace();
 				return false;
 			}
 		}
@@ -501,6 +505,19 @@ public class DbManager {
 			Objects.requireNonNull(nome_partito);
 			try {
 				return partiti.queryForId(nome_partito);
+			}catch(SQLException e) {
+				return null;
+			}
+		}
+		
+		/**
+		 * TODO
+		 * @return
+		 * @throws
+		 */
+		public List<Partito> getAllPartito() {
+			try {
+				return partiti.queryForAll();
 			}catch(SQLException e) {
 				return null;
 			}

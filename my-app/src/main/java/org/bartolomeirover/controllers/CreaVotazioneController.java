@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 
 import org.bartolomeirover.App;
 import org.bartolomeirover.common.Controller;
+import org.bartolomeirover.models.TipoVotazione;
 
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -29,25 +30,40 @@ public class CreaVotazioneController extends Controller implements Initializable
 	@FXML
 	private CheckBox quorumCheck, maggioranzaAssolutaCheck;
 	@FXML
-	private ComboBox<String> tipoAmministrativeCombo;
+	private ComboBox<TipoVotazione> tipoAmministrativeCombo;
 	@FXML
 	private Button avantiButton;
 	@FXML
 	private RadioButton referendumRadio, amministrativeRadio;
 	
-	private String[] tipi = {"Categorica (partiti)", "Categorica (candidati)", "Ordinale (partiti)", "Ordinale (candidati)"
-			, "Categorica + preferenza"};
+	private TipoVotazione[] tipi = {TipoVotazione.ORDINALE_PARTITI, TipoVotazione.ORDINALE_CANDIDATI, 
+			TipoVotazione.CATEGORICO_PARTITI, TipoVotazione.CATEGORICO_CANDIDATI
+			, TipoVotazione.CON_PREFERENZA};
 	
 	
 	public void next(ActionEvent event) {
 		
 		if (amministrativeRadio.isSelected()) {
-			navigate("CreaAmministrativa");
-			CreaAmministrativaController contr = (CreaAmministrativaController) App.getController();
+			switch(tipoAmministrativeCombo.getValue()) {
+				case ORDINALE_PARTITI:
+				case CATEGORICO_PARTITI:
+				case CON_PREFERENZA:
+					navigate("CreaAmministrativaPartiti");
+					break;
+				case ORDINALE_CANDIDATI:
+				case CATEGORICO_CANDIDATI:
+					navigate("CreaAmministrativaCandidati");
+					break;
+				default:
+					System.out.println("Invalid type");
+			}
+			CreaAmministrativaPartitiController contr = (CreaAmministrativaPartitiController) App.getController();
 			contr.sendData(nomeField.getText(), inizioDate.getValue(), fineDate.getValue(), 
 					maggioranzaAssolutaCheck.isSelected(), tipoAmministrativeCombo.getValue());
 		} else {
-			
+			navigate("CreaReferendum");
+			CreaReferendumController contr = (CreaReferendumController) App.getController();
+			contr.sendData(nomeField.getText(), inizioDate.getValue(), fineDate.getValue(), quorumCheck.isSelected());
 		}
 	}
 	

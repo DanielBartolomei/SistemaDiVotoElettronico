@@ -34,7 +34,7 @@ public class VotesManager {
 		switch(tipo){
 			
 			case CATEGORICO_PARTITI:
-			case CONPREFERENZA:	
+			case CON_PREFERENZA:	
 				for(int i=voti.size()-1; i>=0; i--) {
 					if(voti.get(i).getVoti() < max ) break;
 					vincitori.put(voti.get(i).getPartito(), Math.toIntExact(voti.get(i).getVoti()));
