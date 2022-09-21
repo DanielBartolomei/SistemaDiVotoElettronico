@@ -26,7 +26,12 @@ import javafx.stage.WindowEvent;
 public class App extends Application {
 	
 	private static Scene scene;
+	private static Controller controller;
 
+	public static Controller getController() {
+		return controller;
+	}
+	
 	@Override
 	public void start(final Stage stage) throws IOException {
 		DbManager db = DbManager.getInstance();
@@ -70,7 +75,6 @@ public class App extends Application {
 	public static Parent loadView(String view) throws IOException {
 		FXMLLoader loader = new FXMLLoader(App.class.getResource("views/" + view + ".fxml"));
 		Parent root = loader.load();
-        System.out.println("View" + view + "loaded");
         return root;
     }
 
@@ -83,7 +87,7 @@ public class App extends Application {
     public static Parent loadView(Controller sender, String view, Object parameter) throws IOException {
         FXMLLoader loader = new FXMLLoader(App.class.getResource("views/" + view + ".fxml"));
         Parent parent = loader.load();
-        Controller controller = loader.getController();
+        controller = loader.getController();
         controller.onNavigateFrom(sender, parameter);
         controller.init();
         return parent;
@@ -102,7 +106,6 @@ public class App extends Application {
     }
     
     public void exit(Stage stage) {
-		
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Chiusura programma");
 		alert.setHeaderText("Stai per chiudere il programma di votazione");

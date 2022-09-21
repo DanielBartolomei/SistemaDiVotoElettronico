@@ -4,12 +4,15 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
+import org.bartolomeirover.App;
 import org.bartolomeirover.common.Controller;
 
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -17,7 +20,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 
-public class CreaVotazioneUnoController extends Controller implements Initializable {
+public class CreaVotazioneController extends Controller implements Initializable {
 
 	@FXML
 	private DatePicker fineDate, inizioDate;
@@ -32,11 +35,20 @@ public class CreaVotazioneUnoController extends Controller implements Initializa
 	@FXML
 	private RadioButton referendumRadio, amministrativeRadio;
 	
-	private String[] tipi = {"Categorica", "Ordinale", "Categorica + preferenza"};
+	private String[] tipi = {"Categorica (partiti)", "Categorica (candidati)", "Ordinale (partiti)", "Ordinale (candidati)"
+			, "Categorica + preferenza"};
 	
 	
 	public void next(ActionEvent event) {
-		navigate("CreaVotazione2");
+		
+		if (amministrativeRadio.isSelected()) {
+			navigate("CreaAmministrativa");
+			CreaAmministrativaController contr = (CreaAmministrativaController) App.getController();
+			contr.sendData(nomeField.getText(), inizioDate.getValue(), fineDate.getValue(), 
+					maggioranzaAssolutaCheck.isSelected(), tipoAmministrativeCombo.getValue());
+		} else {
+			
+		}
 	}
 	
 	public void back(ActionEvent event) {
@@ -61,6 +73,7 @@ public class CreaVotazioneUnoController extends Controller implements Initializa
 		avantiButton.setDisable(!checkDataInputCompletion());
 	}
 	
+	// nomeField onTextChange
 	public void unlockAvantiText(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 		avantiButton.setDisable(newValue == null || newValue.equals("") || !checkDataInputCompletion());
 	}
