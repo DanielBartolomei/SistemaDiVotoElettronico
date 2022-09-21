@@ -526,6 +526,19 @@ public class DbManager {
 		}
 		
 		/**
+		 * TODO
+		 * @return
+		 * @throws
+		 */
+		public List<Candidato> getAllCandidato() {
+			try {
+				return candidati.queryForAll();
+			}catch(SQLException e) {
+				return null;
+			}
+		}
+		
+		/**
 		 * 
 		 * @param id_candidato
 		 * @return candidato corrispondente al id_candidato, 

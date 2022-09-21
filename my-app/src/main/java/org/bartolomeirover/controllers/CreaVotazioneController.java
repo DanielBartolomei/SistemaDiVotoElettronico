@@ -49,17 +49,21 @@ public class CreaVotazioneController extends Controller implements Initializable
 				case CATEGORICO_PARTITI:
 				case CON_PREFERENZA:
 					navigate("CreaAmministrativaPartiti");
+					CreaAmministrativaPartitiController contrPart = (CreaAmministrativaPartitiController) App.getController();
+					contrPart.sendData(nomeField.getText(), inizioDate.getValue(), fineDate.getValue(), 
+							maggioranzaAssolutaCheck.isSelected(), tipoAmministrativeCombo.getValue());
 					break;
 				case ORDINALE_CANDIDATI:
 				case CATEGORICO_CANDIDATI:
 					navigate("CreaAmministrativaCandidati");
+					CreaAmministrativaCandidatiController contrCand = (CreaAmministrativaCandidatiController) App.getController();
+					contrCand.sendData(nomeField.getText(), inizioDate.getValue(), fineDate.getValue(), 
+							maggioranzaAssolutaCheck.isSelected(), tipoAmministrativeCombo.getValue());
 					break;
 				default:
 					System.out.println("Invalid type");
 			}
-			CreaAmministrativaPartitiController contr = (CreaAmministrativaPartitiController) App.getController();
-			contr.sendData(nomeField.getText(), inizioDate.getValue(), fineDate.getValue(), 
-					maggioranzaAssolutaCheck.isSelected(), tipoAmministrativeCombo.getValue());
+			
 		} else {
 			navigate("CreaReferendum");
 			CreaReferendumController contr = (CreaReferendumController) App.getController();

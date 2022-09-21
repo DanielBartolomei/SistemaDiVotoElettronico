@@ -4,12 +4,9 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import org.bartolomeirover.common.Controller;
-import org.bartolomeirover.common.DateUtils;
 import org.bartolomeirover.data.DbManager;
 import org.bartolomeirover.models.Candidato;
-import org.bartolomeirover.models.Partito;
 import org.bartolomeirover.models.TipoVotazione;
 import org.bartolomeirover.models.VotazioneClassica;
 
@@ -18,17 +15,17 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 
-public class CreaAmministrativaPartitiController extends Controller implements Initializable {
+public class CreaAmministrativaCandidatiController extends Controller implements Initializable {
 
 	@FXML
-	private ListView<Partito> partitiList, partecipantiList;
+	private ListView<Candidato> candidatiList, partecipantiList;
 	
 	private String nomeVotazione;
 	private TipoVotazione tipoAmministrative;
 	private LocalDate dataInizio, dataFine;
 	private boolean isAssoluta;
 	
-	private List<Partito> possibili;
+	private List<Candidato> possibili;
 	
 	public void sendData(String nomeVotazione, LocalDate dataInizio, LocalDate dataFine, boolean isAssoluta, 
 			TipoVotazione tipoAmministrative) {
@@ -49,15 +46,9 @@ public class CreaAmministrativaPartitiController extends Controller implements I
 				this.dataFine, this.isAssoluta, this.tipoAmministrative);
 		
 		// 2. Registra partecipazione dei partiti/candidati alla votazione
-		List<Partito> partecipanti = partecipantiList.getItems();
-		for (Partito partito : partecipanti) {
-			db.registraPartecipazionePartito(vc, partito);
-			if (tipoAmministrative.toString().equals(TipoVotazione.CON_PREFERENZA.toString())) {
-				List<Candidato> candidati = db.getListaCandidati(partito);
-				for (Candidato candidato : candidati) {
-					db.registraPartecipazioneCandidato(vc, candidato);
-				}
-			}
+		List<Candidato> partecipanti = partecipantiList.getItems();
+		for (Candidato candidato : partecipanti) {
+			db.registraPartecipazioneCandidato(vc, candidato);
 		}
 		
 		navigate("PannelloAdmin");
@@ -68,7 +59,7 @@ public class CreaAmministrativaPartitiController extends Controller implements I
 	}
 	
 	public void insert(ActionEvent event) {
-		Partito selezionato = partitiList.getSelectionModel().getSelectedItem();
+		Candidato selezionato = candidatiList.getSelectionModel().getSelectedItem();
 		if (selezionato == null) return;
 		if (!partecipantiList.getItems().contains(selezionato)) {
 			partecipantiList.getItems().add(selezionato);
@@ -82,8 +73,8 @@ public class CreaAmministrativaPartitiController extends Controller implements I
 
 	private void populateList() {
 		DbManager db = DbManager.getInstance();
-		this.possibili = db.getAllPartito();
-		partitiList.getItems().addAll(this.possibili);
+		this.possibili = db.getAllCandidato();
+		candidatiList.getItems().addAll(this.possibili);
 	}
 	
 	@Override
@@ -92,4 +83,5 @@ public class CreaAmministrativaPartitiController extends Controller implements I
 		populateList();
 		
 	}
+
 }
