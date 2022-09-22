@@ -628,6 +628,7 @@ public class DbManager {
 			try {
 				return votazioni.queryForAll();
 			}catch(SQLException e) {
+				e.printStackTrace();
 				return null;
 			}
 		}
@@ -638,6 +639,21 @@ public class DbManager {
 		public List<Referendum> getAllReferendum(){
 			try {
 				return referendums.queryForAll();
+			}catch(SQLException e) {
+				return null;
+			}
+		}
+		
+		/**
+		 * TODO
+		 * @param cf
+		 * @return
+		 */
+		public Utente findUtenteByCF(String cf) {
+			Objects.requireNonNull(cf);
+			try {
+				Utente u = utenti.queryForId(cf);
+				return u;
 			}catch(SQLException e) {
 				return null;
 			}

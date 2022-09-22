@@ -2,6 +2,7 @@ package org.bartolomeirover.controllers;
 
 import java.nio.charset.StandardCharsets;
 
+import org.bartolomeirover.App;
 import org.bartolomeirover.common.Controller;
 import org.bartolomeirover.data.DbManager;
 import org.bartolomeirover.models.Utente;
@@ -53,6 +54,8 @@ public class LoginController extends Controller {
 				navigate("PannelloAdmin");
 			} else {
 				navigate("PannelloUtente");
+				PannelloUtenteController contr = (PannelloUtenteController) App.getController();
+				contr.sendData(usernameField.getText());
 			}
 		}
 	}

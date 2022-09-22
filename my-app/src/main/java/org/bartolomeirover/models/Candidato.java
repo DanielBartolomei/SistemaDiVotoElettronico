@@ -66,4 +66,9 @@ public class Candidato{
 	 *  Other Methods
 	 */
 	
+	@Override
+	public String toString() {
+		return this.cognome + " " + this.nome + " (" + this.partito.toString() + ")";
+	}
+	
 }
