@@ -304,6 +304,75 @@ public class DbManager {
 			}
 		}
 		
+		/**
+		 * TODO
+		 * @param vc
+		 * @return
+		 */
+		public boolean rimuoviVotazione(VotazioneClassica vc) {
+			Objects.requireNonNull(vc);
+			try {
+				List<Voti> voti = votiVotazioni.queryForEq("votazione_id", vc.getId());
+				for (Voti v : voti) {
+					votiVotazioni.delete(v);
+				}
+				
+				List<VotiPartito> votiP;
+				switch(vc.getTipo()) {
+					case CATEGORICO_PARTITI:
+					case ORDINALE_PARTITI:
+						 votiP = votiPartiti.queryForEq("votazione_id", vc.getId());
+						for(VotiPartito vp : votiP) {
+							votiPartiti.delete(vp);
+						}
+						break;
+						
+					case CON_PREFERENZA:
+						votiP = votiPartiti.queryForEq("votazione_id", vc.getId());
+						for(VotiPartito vp : votiP) {
+							votiPartiti.delete(vp);
+						}
+						
+					case CATEGORICO_CANDIDATI:
+					case ORDINALE_CANDIDATI:
+						List<VotiCandidato> votiC = votiCandidati.queryForEq("votazione_id", vc.getId());
+						for(VotiCandidato vcand : votiC) {
+							votiCandidati.delete(vcand);
+						}
+						break;
+					default:
+						
+				}
+				
+				votazioni.delete(vc);	
+				return true;
+				
+			}catch(SQLException e) {
+				return false;
+			}
+		}
+		
+		/**
+		 * TODO
+		 * @param r
+		 * @return
+		 */
+		public boolean rimuoviReferendum(Referendum r) {
+			Objects.requireNonNull(r);
+			try {
+				List<VotiReferendum> voti = votiReferendum.queryForEq("referendum_id", r.getId());
+				for (VotiReferendum vr : voti) {
+					votiReferendum.delete(vr);
+				}
+				
+				referendums.delete(r);	
+				return true;
+				
+			}catch(SQLException e) {
+				return false;
+			}
+		}
+		
 		
 		/**
 		 * ######### Votes Operations #########
