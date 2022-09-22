@@ -76,6 +76,9 @@ public class Utente{
 	 *  Other Methods
 	 */
 	
-	
+	@Override
+	public String toString() {
+		return this.cf + " " + this.cognome + " " + this.nome;
+	}
 	
 }

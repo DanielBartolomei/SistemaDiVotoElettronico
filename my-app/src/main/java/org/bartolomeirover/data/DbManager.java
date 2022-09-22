@@ -689,13 +689,15 @@ public class DbManager {
 			Objects.requireNonNull(utente);
 			try {
 				List<VotiReferendum> refUtente = votiReferendum.queryForEq("utente_id", utente.getCF());
+				System.out.println(refUtente.toString());
 				
 				List<Referendum> r = new ArrayList<>();
 				for( int i=0; i<refUtente.size(); i++) {
-					r.add(referendums.queryForId(refUtente.get(i).getId()));
+					r.add(referendums.queryForId(refUtente.get(i).getReferendum().getId()));
 				}
 				return r;
 			}catch(SQLException e) {
+				e.printStackTrace();
 				return null;
 			}
 		}

@@ -124,7 +124,7 @@ public class VotazioneClassica implements Comparable<Object> {
 	
 	@Override
 	public boolean equals(Object o) {
-		Objects.requireNonNull(o);
+		if (o == null) return false;
 		
 		if(!(o instanceof VotazioneClassica)) return false;
 		

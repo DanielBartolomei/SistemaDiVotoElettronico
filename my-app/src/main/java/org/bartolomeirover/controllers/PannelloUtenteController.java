@@ -28,12 +28,18 @@ public class PannelloUtenteController extends Controller {
 		DbManager db = DbManager.getInstance();
 		List<VotazioneClassica> votazioni = db.getAllVotazioni();
 		List<Referendum> referendum = db.getAllReferendum();
+		System.out.println("Votazioni tot: "+votazioni.toString());
+		System.out.println("Referendum tot: "+referendum.toString());
 		
 		Utente utente = db.findUtenteByCF(this.cf.toUpperCase());
+		System.out.println("Utente dal db: " + utente.toString());
 		List<VotazioneClassica> votazioniUtente = db.getVotazioniUtente(utente);
 		List<Referendum> referendumUtente = db.getReferendumUtente(utente);
+		System.out.println("Votazioni utente: "+votazioniUtente.toString());
+		System.out.println("Referendum utente: "+referendumUtente.toString());
 		
 		for (VotazioneClassica vc : votazioni) {
+			System.out.println("Evaluating votazione: " + vc.toString());
 			if (votazioniUtente.contains(vc)) {
 				votazioniEffettuateList.getItems().add(vc);
 			} else {
@@ -41,6 +47,7 @@ public class PannelloUtenteController extends Controller {
 			}
 		}
 		for (Referendum r : referendum) {
+			System.out.println("Evaluating referendum: " + r.toString());
 			if (referendumUtente.contains(r)) {
 				votazioniEffettuateList.getItems().add(r);
 			} else {

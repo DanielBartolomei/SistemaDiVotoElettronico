@@ -16,6 +16,10 @@ public class VotiReferendum {
 	@DatabaseField(foreign = true, uniqueCombo = true)
 	private Referendum referendum;
 	
+	public Referendum getReferendum() {
+		return this.referendum;
+	}
+	
 	public void setUtente(Referendum referendum) {
 		this.referendum = referendum;
 	}

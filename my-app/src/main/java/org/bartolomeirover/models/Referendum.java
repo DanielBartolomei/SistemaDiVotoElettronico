@@ -137,7 +137,7 @@ public class Referendum implements Comparable<Object>{
 	
 	@Override
 	public boolean equals(Object o) {
-		Objects.requireNonNull(o);
+		if (o == null) return false;
 		
 		if(!(o instanceof Referendum)) return false;
 		
