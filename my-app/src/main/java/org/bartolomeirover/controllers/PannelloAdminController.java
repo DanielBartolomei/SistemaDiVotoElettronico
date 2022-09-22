@@ -35,12 +35,14 @@ public class PannelloAdminController extends Controller implements Initializable
 		DbManager db = DbManager.getInstance();
 		
 		if (votazioniAttiveList.getSelectionModel().getSelectedItem() instanceof Referendum) {
-			// gestione cancella referendum
 			Referendum r = (Referendum) votazioniAttiveList.getSelectionModel().getSelectedItem();
+			db.rimuoviReferendum(r);
 		} else {
-			// gestione cancella votazione classica
 			VotazioneClassica vc = (VotazioneClassica) votazioniAttiveList.getSelectionModel().getSelectedItem();
+			db.rimuoviVotazione(vc);
 		}
+		
+		votazioniAttiveList.getItems().remove(votazioniAttiveList.getSelectionModel().getSelectedItem());
 	}
 
 	@Override
