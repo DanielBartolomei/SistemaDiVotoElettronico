@@ -208,6 +208,26 @@ public class DbManager {
 		}
 		
 		/**
+		 * TODO
+		 * @param p
+		 * @return
+		 */
+		public boolean rimuoviPartito(Partito p) {
+			Objects.requireNonNull(p);
+			try {				
+				List<Candidato> lista = getListaCandidati(p);
+				for(Candidato c : lista) {
+					if(!rimuoviCandidato(c)) return false;
+				}
+				partiti.delete(p);	
+				return true;
+				
+			}catch(SQLException e) {
+				return false;
+			}
+		}
+		
+		/**
 		 * 
 		 * @param nome
 		 * @param cognome
@@ -230,6 +250,22 @@ public class DbManager {
 					return true;
 				}
 				return false;
+			}catch(SQLException e) {
+				return false;
+			}
+		}
+		
+		/**
+		 * TODO
+		 * @param c
+		 * @return
+		 */
+		public boolean rimuoviCandidato(Candidato c) {
+			Objects.requireNonNull(c);
+			try {				
+				candidati.delete(c);
+				return true;
+				
 			}catch(SQLException e) {
 				return false;
 			}
