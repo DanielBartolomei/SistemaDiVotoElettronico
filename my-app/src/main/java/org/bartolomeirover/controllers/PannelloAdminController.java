@@ -28,6 +28,20 @@ public class PannelloAdminController extends Controller implements Initializable
 	public void goToCreaVotazione(ActionEvent event) {
 		navigate("CreaVotazione");
 	}
+	
+	public void delete(ActionEvent event) {
+		if (votazioniAttiveList.getSelectionModel().getSelectedItem() == null) return;
+		
+		DbManager db = DbManager.getInstance();
+		
+		if (votazioniAttiveList.getSelectionModel().getSelectedItem() instanceof Referendum) {
+			// gestione cancella referendum
+			Referendum r = (Referendum) votazioniAttiveList.getSelectionModel().getSelectedItem();
+		} else {
+			// gestione cancella votazione classica
+			VotazioneClassica vc = (VotazioneClassica) votazioniAttiveList.getSelectionModel().getSelectedItem();
+		}
+	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
