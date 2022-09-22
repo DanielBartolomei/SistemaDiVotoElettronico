@@ -15,10 +15,10 @@ public class VotiCandidato implements Comparable<VotiCandidato>{
 	@DatabaseField(generatedId = true)
 	private int id;
 
-	@DatabaseField(foreign = true, foreignColumnName = "id", uniqueCombo = true, canBeNull = false)
+	@DatabaseField(foreign = true, uniqueCombo = true, canBeNull = false)
 	private VotazioneClassica votazione;
 	
-	@DatabaseField(foreign = true, foreignColumnName = "id", uniqueCombo = true, canBeNull = false)
+	@DatabaseField(foreign = true, uniqueCombo = true, canBeNull = false)
 	private Candidato candidato;
 	
 	public Candidato getCandidato() {

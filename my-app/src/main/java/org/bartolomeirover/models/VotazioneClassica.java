@@ -117,7 +117,10 @@ public class VotazioneClassica implements Comparable<Object> {
 		
 	}
 	
-	
+	@Override
+	public String toString() {
+		return this.nome;
+	}
 	
 	
 }

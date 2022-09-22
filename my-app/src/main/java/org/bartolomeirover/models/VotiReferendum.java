@@ -13,14 +13,14 @@ public class VotiReferendum {
 		return id;
 	}
 	
-	@DatabaseField(foreign = true, foreignColumnName = "id", uniqueCombo = true)
+	@DatabaseField(foreign = true, uniqueCombo = true)
 	private Referendum referendum;
 	
 	public void setUtente(Referendum referendum) {
 		this.referendum = referendum;
 	}
 	
-	@DatabaseField(foreign = true, foreignColumnName = "cf",  uniqueCombo = true)
+	@DatabaseField(foreign = true, uniqueCombo = true)
 	private Utente utente;
 	
 	public void setUtente(Utente utente) {

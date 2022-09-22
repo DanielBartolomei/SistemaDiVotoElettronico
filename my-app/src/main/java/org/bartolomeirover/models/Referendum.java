@@ -128,6 +128,10 @@ public class Referendum implements Comparable<Object>{
 			VotazioneClassica vc = (VotazioneClassica)o;
 			return this.dataInizio.compareTo(vc.getInizio());
 		}
-		
+	}
+	
+	@Override
+	public String toString() {
+		return this.nome;
 	}
 }

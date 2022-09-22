@@ -668,7 +668,7 @@ public class DbManager {
 		public List<VotazioneClassica> getVotazioniUtente(Utente utente){
 			Objects.requireNonNull(utente);
 			try {
-				List<Voti> votiUtente = votiVotazioni.queryForEq("utente", utente.getCF());
+				List<Voti> votiUtente = votiVotazioni.queryForEq("utente_id", utente.getCF());
 				
 				List<VotazioneClassica> v = new ArrayList<>();
 				for( int i=0; i<votiUtente.size(); i++) {
@@ -688,7 +688,7 @@ public class DbManager {
 		public List<Referendum> getReferendumUtente(Utente utente){
 			Objects.requireNonNull(utente);
 			try {
-				List<VotiReferendum> refUtente = votiReferendum.queryForEq("utente", utente.getCF());
+				List<VotiReferendum> refUtente = votiReferendum.queryForEq("utente_id", utente.getCF());
 				
 				List<Referendum> r = new ArrayList<>();
 				for( int i=0; i<refUtente.size(); i++) {
@@ -777,20 +777,31 @@ public class DbManager {
             
             String pw2 = Hashing.sha256()
         			.hashString("rennee2022", StandardCharsets.UTF_8).toString();
-            Utente u2 = new Utente("RVRSMN98A21F205Z", pw2, "Simone", "Rover");
+            Utente u2 = new Utente("RVRSMN98A19F205F", pw2, "Simone", "Rover");
+            
+            String pw3 = Hashing.sha256()
+        			.hashString("luigirossi68", StandardCharsets.UTF_8).toString();
+            Utente u3 = new Utente("RSSLGU68P12F205J", pw3, "Luigi", "Rossi");
 
+            String pw4 = Hashing.sha256()
+        			.hashString("sweng2022", StandardCharsets.UTF_8).toString();
+            Utente u4 = new Utente("BRGCHR74A41L840V", pw4, "Chiara", "Braghin");
 
             utenti.createIfNotExists(u1);
             utenti.createIfNotExists(u2);
+            utenti.createIfNotExists(u3);
+            utenti.createIfNotExists(u4);
             
             System.out.println("FINE UTENTI #######");
             
             System.out.println("CREO VOTAZIONI #######");
             
-            VotazioneClassica vc = new VotazioneClassica("Elezioni", DateUtils.fromLocalDateToString(LocalDate.of(2023, 02, 10)) 
+            VotazioneClassica vc = new VotazioneClassica("Elezioni", 
+            		DateUtils.fromLocalDateToString(LocalDate.of(2023, 02, 10)) 
             		, DateUtils.fromLocalDateToString(LocalDate.of(2023, 02, 15)), true, TipoVotazione.CATEGORICO_PARTITI);
             
-            Referendum r = new Referendum("Energia Nucleare", "Usare energia nucleare come fonte principale di energia.", DateUtils.fromLocalDateToString(LocalDate.of(2023, 02, 10)) 
+            Referendum r = new Referendum("Energia Nucleare", "Usare energia nucleare come fonte principale di energia.", 
+            		DateUtils.fromLocalDateToString(LocalDate.of(2023, 02, 10)) 
             		, DateUtils.fromLocalDateToString(LocalDate.of(2023, 02, 15)), true);
             
             votazioni.create(vc);
@@ -801,18 +812,25 @@ public class DbManager {
             System.out.println("CREO PARTITI #######");
             
             Partito p1 = new Partito("Cinque Stelle");
-            Partito p2 = new Partito("PD");
+            Partito p2 = new Partito("Partito Democratico");
+            Partito p3 = new Partito("Forza Italia");
+            Partito p4 = new Partito("Lega Nord");
             
             partiti.create(p1);
             partiti.create(p2);
+            partiti.create(p3);
+            partiti.create(p4);
             
             System.out.println("FINE PARTITI #######");
             
             System.out.println("CREO CANDIDATI #######");
             
             aggiungiCandidato("Mario", "Rossi", "Cinque Stelle");
-            aggiungiCandidato("Berto", "Pertici", "PD");
-            aggiungiCandidato("Normanno", "Tiraghi", "PD"); 
+            aggiungiCandidato("Berto", "Pertici", "Partito Democratico");
+            aggiungiCandidato("Normanno", "Tiraghi", "Partito Democratico"); 
+            aggiungiCandidato("Matteo", "Salvini", "Lega Nord");
+            aggiungiCandidato("Silvio", "Berlusconi", "Forza Italia");
+            aggiungiCandidato("Giorgia", "Meloni", "Forza Italia");
             
             System.out.println("FINE CANDIDATI #######");
 
@@ -822,16 +840,22 @@ public class DbManager {
 
             registraPartecipazionePartito(vc, p1);
             registraPartecipazionePartito(vc, p2);
+            registraPartecipazionePartito(vc, p3);
+            registraPartecipazionePartito(vc, p4);
             
             registraVotoReferendum(u1, r);
             registraEsitoReferendum(r, TipoEsitoRef.FAVOREVOLE);
             registraVotoReferendum(u2, r);
             registraEsitoReferendum(r, TipoEsitoRef.BIANCA);
+            registraVotoReferendum(u3, r);
+            registraEsitoReferendum(r, TipoEsitoRef.FAVOREVOLE);
             
             registraVotoVotazione(u1, vc);
             registraEsitoVotazione(vc, p1);
             registraVotoVotazione(u2, vc);
             registraEsitoVotazione(vc, p1);
+            registraVotoVotazione(u3, vc);
+            registraEsitoVotazione(vc, p2);
             
             System.out.println("FINE #######");
             

@@ -29,7 +29,7 @@ public class PannelloUtenteController extends Controller {
 		List<VotazioneClassica> votazioni = db.getAllVotazioni();
 		List<Referendum> referendum = db.getAllReferendum();
 		
-		Utente utente = db.findUtenteByCF(this.cf);
+		Utente utente = db.findUtenteByCF(this.cf.toUpperCase());
 		List<VotazioneClassica> votazioniUtente = db.getVotazioniUtente(utente);
 		List<Referendum> referendumUtente = db.getReferendumUtente(utente);
 		

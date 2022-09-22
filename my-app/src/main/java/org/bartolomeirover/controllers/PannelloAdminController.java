@@ -12,11 +12,13 @@ import org.bartolomeirover.models.Referendum;
 import org.bartolomeirover.models.VotazioneClassica;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 
 public class PannelloAdminController extends Controller implements Initializable {
 	
+	@FXML
 	private ListView<Object> votazioniAttiveList, votazioniConcluseList;
 	
 	public void logout(ActionEvent event) {
@@ -29,12 +31,10 @@ public class PannelloAdminController extends Controller implements Initializable
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		/*
+		
 		DbManager db = DbManager.getInstance();
 		List<VotazioneClassica> votazioni = db.getAllVotazioni();
 		List<Referendum> referendum = db.getAllReferendum();
-		
-		System.out.println(votazioni);
 		
 		for (VotazioneClassica vc : votazioni) {
 			if (vc.getFine().compareTo(DateUtils.fromLocalDateToString(LocalDate.now())) < 0) {
@@ -53,6 +53,6 @@ public class PannelloAdminController extends Controller implements Initializable
 		
 		votazioniAttiveList.getItems().sort(null);
 		votazioniConcluseList.getItems().sort(null);
-		*/
+		
 	}
 }
