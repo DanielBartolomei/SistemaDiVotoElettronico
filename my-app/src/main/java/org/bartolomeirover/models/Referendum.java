@@ -134,4 +134,15 @@ public class Referendum implements Comparable<Object>{
 	public String toString() {
 		return this.nome;
 	}
+	
+	@Override
+	public boolean equals(Object o) {
+		Objects.requireNonNull(o);
+		
+		if(!(o instanceof Referendum)) return false;
+		
+		Referendum other = (Referendum) o;
+		return other.id == this.id;
+		
+	}
 }

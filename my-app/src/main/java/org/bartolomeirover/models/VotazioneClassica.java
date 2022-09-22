@@ -122,5 +122,16 @@ public class VotazioneClassica implements Comparable<Object> {
 		return this.nome;
 	}
 	
+	@Override
+	public boolean equals(Object o) {
+		Objects.requireNonNull(o);
+		
+		if(!(o instanceof VotazioneClassica)) return false;
+		
+		VotazioneClassica other = (VotazioneClassica) o;
+		return other.id == this.id;
+		
+	}
+	
 	
 }
