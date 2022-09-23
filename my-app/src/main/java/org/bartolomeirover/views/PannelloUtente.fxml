@@ -17,7 +17,8 @@
       <ListView fx:id="votazioniAttiveList" layoutX="35.0" layoutY="105.0" prefHeight="232.0" prefWidth="261.0" />
       <Label layoutX="35.0" layoutY="76.0" text="Votazioni attive" />
       <ListView fx:id="votazioniEffettuateList" layoutX="349.0" layoutY="105.0" prefHeight="232.0" prefWidth="261.0" />
-      <Button layoutX="451.0" layoutY="387.0" mnemonicParsing="false" onAction="#vota" prefHeight="25.0" prefWidth="57.0" text="Vota" />
-      <Label layoutX="349.0" layoutY="76.0" text="Votazioni effettuate" />
+      <Button fx:id="votaButton" layoutX="451.0" layoutY="387.0" mnemonicParsing="false" onAction="#vota" prefHeight="25.0" prefWidth="57.0" text="Vota" />
+      <Label layoutX="349.0" layoutY="76.0" text="Votazioni effettuate/concluse" />
+      <Button fx:id="esitoButton" layoutX="512.0" layoutY="72.0" mnemonicParsing="false" onAction="#visualizza" text="Visualizza esito" />
    </children>
 </Pane>

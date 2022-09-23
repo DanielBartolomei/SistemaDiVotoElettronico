@@ -7,13 +7,13 @@ import org.bartolomeirover.models.Utente;
 
 public class UserManager {
 
-	private UserManager _instance;
+	private static UserManager _instance;
 	
 	private UserManager() {
 		
 	}
 	
-	public UserManager getInstance() {
+	public static UserManager getInstance() {
 		if(_instance == null)
 			_instance = new UserManager();
 		return _instance;

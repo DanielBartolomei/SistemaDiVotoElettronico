@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import org.bartolomeirover.App;
 import org.bartolomeirover.common.Controller;
 import org.bartolomeirover.common.DateUtils;
 import org.bartolomeirover.data.DbManager;
@@ -183,7 +184,7 @@ public class PannelloAdminController extends Controller implements Initializable
 			}
 		}
 	}
-
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
