@@ -500,6 +500,25 @@ public class DbManager {
 				if(vc.size() != 0) {
 					vc.get(0).aggiungiVoto();
 					votiCandidati.update(vc.get(0));
+					votazione.aggiungiVoto();
+					votazioni.update(votazione);
+					return true;
+				}else
+					return false;
+			}catch(SQLException e) {
+				return false;
+			}
+		}
+		
+		public boolean registraEsitoPreferenza(VotazioneClassica votazione, Candidato candidato) {
+			Objects.requireNonNull(votazione);
+			Objects.requireNonNull(candidato);
+			try {
+				List<VotiCandidato> vc = votiCandidati.queryForMatching(new VotiCandidato(votazione, candidato));
+				
+				if(vc.size() != 0) {
+					vc.get(0).aggiungiVoto();
+					votiCandidati.update(vc.get(0));
 					return true;
 				}else
 					return false;
@@ -580,7 +599,6 @@ public class DbManager {
 			if (amount <= 0) return false;
 			
 			try {
-				 // da controllare il funzionamento
 				List<VotiPartito> vp = votiPartiti.queryForMatching(new VotiPartito(votazione, partito));
 				if(vp.size() != 0) {
 					vp.get(0).aggiungiVoto(amount);

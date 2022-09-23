@@ -46,7 +46,7 @@ public class VotazionePreferenzaController extends Controller {
 		if (sceltaCombo.getValue() == null) return;
 		
 		DbManager db = DbManager.getInstance();
-		db.registraEsitoVotazione(votazione, sceltaCombo.getValue());
+		db.registraEsitoPreferenza(votazione, sceltaCombo.getValue());
 		db.registraVotoVotazione(utente, votazione);
 		
 		navigate("PannelloUtente");
