@@ -55,6 +55,7 @@ public class DbManager {
 		 * DB utility methods 
 		 */
 		
+		
 		/**
 		 * @return true se tabelle sono state create correttamente e i loro rispettivi DAO,
 		 * 		false se non è stato possibile collegarsi al db o se è sollevata una SQLException.
@@ -137,6 +138,10 @@ public class DbManager {
 		 * 		null se credenziali non approvate da AgiD, se utente gia registrato o se è sollevata una SQLException.
 		 * @throws NullPointerException se <b>cf</b>, <b>hashPassword</b>, <b>nome</b>, <b>cognome</b> sono riferimenti a null.
 		 */
+		
+		//@require cf!=null && hashPassword!=null && nome!=null && cognome!=null;
+		//@ensures u1.cf == u2.cf <==> u1 == u2;
+		 
 		public Utente registra(String cf, String hashPassword, String nome, String cognome) {
 			Objects.requireNonNull(cf);
 			Objects.requireNonNull(hashPassword);

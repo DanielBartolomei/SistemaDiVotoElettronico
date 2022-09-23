@@ -1,12 +1,12 @@
 package org.bartolomeirover.models;
 
-import java.util.Objects;
-
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "votiCandidato")
 public class VotiCandidato implements Comparable<VotiCandidato>{
+	
+	//@ invariant candidato!=null && votazione!=null && totVoti >= 0;
 	
 	/**
 	 *  FIelds and Getters
@@ -50,10 +50,13 @@ public class VotiCandidato implements Comparable<VotiCandidato>{
 	 *  Other Methods
 	 */
 	
+	//@ ensures totVoti=\old(totVoti+1);
 	public void aggiungiVoto() {
 		totVoti += 1;
 	}
 	
+	//@ requires pos > 0;
+	//@ ensures totVoti=\old(totVoti+pos);
 	public void aggiungiVoto(int pos) {
 		totVoti += pos;
 	}

@@ -7,6 +7,8 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "votiPartito")
 public class VotiPartito implements Comparable<VotiPartito>{
 	
+	//@ invariant votazione!=null && partito!=null && totVoti>=0;
+	
 	@DatabaseField(generatedId = true)
 	private int id;
 
@@ -47,10 +49,13 @@ public class VotiPartito implements Comparable<VotiPartito>{
 	 *  Other Methods
 	 */
 	
+	//@ ensures totVoti=\old(totVoti+1);
 	public void aggiungiVoto() {
 		totVoti += 1;
 	}
 	
+	//@ requires pos > 0;
+	//@ ensures totVoti=\old(totVoti+pos);
 	public void aggiungiVoto(int pos) {
 		totVoti += pos;
 	}

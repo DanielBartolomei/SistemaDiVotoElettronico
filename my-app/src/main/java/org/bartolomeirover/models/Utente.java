@@ -7,9 +7,12 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "utente")
 public class Utente{
-	
+	/*@
+	  @ invariant cf!=null && hashPassword!=null && nome!=null && cognome!=null;
+	  @ 
+	  @*/
 	/**
-	 *  FIelds and Getters
+	 *  Fields and Getters
 	 */
 	
 	@DatabaseField(id = true, unique = true)

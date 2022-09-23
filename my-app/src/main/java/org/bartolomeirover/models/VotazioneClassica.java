@@ -8,6 +8,12 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "votazione")
 public class VotazioneClassica implements Comparable<Object> {
 	
+	/*@
+	  @ invariant nome!=null && dataInizio!=null && dataFine!=null && totVoti >= totValidi;
+	  @
+	  @ 
+	  @*/
+	
 	/**
 	 *  Fields and Getters
 	 */
@@ -95,12 +101,13 @@ public class VotazioneClassica implements Comparable<Object> {
 	/**
 	 *  Other Methods
 	 */
-	
+	//@ ensures totValidi=\old(totValidi+1) && totVoti=\old(totVoti+1);
 	public void aggiungiVoto() {
 		totValidi += 1;
 		totVoti += 1;
 	}
 	
+	//@ ensures totVoti=\old(totVoti+1);
 	public void aggiungiBianca() {
 		totVoti +=1;
 	}

@@ -82,7 +82,6 @@ public final class CodiceFiscale {
 	 */
 	public static boolean checkCF(String codice) {
 		
-		String rx = "\\D\\D\\D\\D\\D\\D\\d\\d\\D\\d\\d\\D\\d\\d\\d\\D";
 		String rxx = "[A-Za-z]{6}[0-9]{2}[A-Za-z]{1}[0-9]{2}[A-Za-z]{1}[0-9]{3}[A-Za-z]{1}";
 		Pattern pt = Pattern.compile(rxx);
 		Matcher mt = pt.matcher(codice);

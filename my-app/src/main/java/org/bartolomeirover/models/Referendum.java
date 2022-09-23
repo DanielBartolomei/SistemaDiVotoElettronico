@@ -8,6 +8,10 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "referendum")
 public class Referendum implements Comparable<Object>{
 	
+	/*@
+	  @ invariant nome!=null && quesito!=null && dataInizio!=null && dataFine!=null && totFavorevoli >= 0
+	  @  	&& totContrari >= 0 && totVoti >= totFavorevoli+totContrari;
+	  @*/
 	/**
 	 *  Fields and Getters
 	 */
@@ -103,7 +107,12 @@ public class Referendum implements Comparable<Object>{
 	/**
 	 *  Other Methods
 	 */
-	
+	//@ requires esito==FAVOREVOLE || esito==CONTRARIO;
+	/*@
+	  @ ensures totVoti == \old(totVoti+1) && 
+	  @		((totFavorevoli == \old(totFavorevoli+1) && totContrari == \old(totContrari)) ||
+	  @		(totFavorevoli == \old(totFavorevoli) && totContrari == \old(totContrari+1)))
+	  @*/
 	public void aggiungiVoto(TipoEsitoRef esito) {
 		switch(esito) {
 			case FAVOREVOLE:

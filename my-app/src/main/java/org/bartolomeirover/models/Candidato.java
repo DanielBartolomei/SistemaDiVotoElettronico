@@ -6,6 +6,8 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "candidato")
 public class Candidato{
 	
+	//@invariant nome!=null && cognome!=null && partito!=null;
+	
 	/**
 	 *  FIelds and Getters
 	 */

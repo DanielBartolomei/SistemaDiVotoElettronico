@@ -6,6 +6,8 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "votiReferendum")
 public class VotiReferendum {
 	
+	//@ invariant referendum!=null && utente!=null;
+	
 	@DatabaseField(generatedId = true)
 	private int id;
 	
