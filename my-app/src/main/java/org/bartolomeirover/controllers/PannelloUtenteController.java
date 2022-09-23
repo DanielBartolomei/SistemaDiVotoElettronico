@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.bartolomeirover.App;
 import org.bartolomeirover.common.Controller;
 import org.bartolomeirover.common.DateUtils;
 import org.bartolomeirover.data.DbManager;
@@ -21,25 +22,17 @@ public class PannelloUtenteController extends Controller {
 	@FXML
 	private ListView<Object> votazioniAttiveList, votazioniEffettuateList;
 	
-	private String cf;
+	private Utente utente;
 	
-	public void sendData(String cf) {
-		this.cf = cf;
+	public void sendData(Utente u) {
+		this.utente = u;
 		DbManager db = DbManager.getInstance();
 		List<VotazioneClassica> votazioni = db.getAllVotazioni();
 		List<Referendum> referendum = db.getAllReferendum();
-		System.out.println("Votazioni tot: "+votazioni.toString());
-		System.out.println("Referendum tot: "+referendum.toString());
-		
-		Utente utente = db.findUtenteByCF(this.cf.toUpperCase());
-		System.out.println("Utente dal db: " + utente.toString());
 		List<VotazioneClassica> votazioniUtente = db.getVotazioniUtente(utente);
 		List<Referendum> referendumUtente = db.getReferendumUtente(utente);
-		System.out.println("Votazioni utente: "+votazioniUtente.toString());
-		System.out.println("Referendum utente: "+referendumUtente.toString());
 		
 		for (VotazioneClassica vc : votazioni) {
-			System.out.println("Evaluating votazione: " + vc.toString());
 			if (votazioniUtente.contains(vc)) {
 				votazioniEffettuateList.getItems().add(vc);
 			} else {
@@ -47,7 +40,6 @@ public class PannelloUtenteController extends Controller {
 			}
 		}
 		for (Referendum r : referendum) {
-			System.out.println("Evaluating referendum: " + r.toString());
 			if (referendumUtente.contains(r)) {
 				votazioniEffettuateList.getItems().add(r);
 			} else {
@@ -64,7 +56,33 @@ public class PannelloUtenteController extends Controller {
 	}
 	
 	public void vota(ActionEvent event) {
+		if (votazioniAttiveList.getSelectionModel().getSelectedItem() == null) return;
 		
+		if (votazioniAttiveList.getSelectionModel().getSelectedItem() instanceof Referendum) {
+			Referendum r = (Referendum) votazioniAttiveList.getSelectionModel().getSelectedItem();
+			navigate("VotazioneReferendum");
+			VotazioneReferendumController contrRef = (VotazioneReferendumController) App.getController();
+			contrRef.sendData(r, utente);
+		} else {
+			VotazioneClassica vc = (VotazioneClassica) votazioniAttiveList.getSelectionModel().getSelectedItem();
+			switch(vc.getTipo()) {
+				case ORDINALE_PARTITI:
+				case ORDINALE_CANDIDATI:
+					navigate("VotazioneOrdinale");
+					VotazioneOrdinaleController contrOrd = (VotazioneOrdinaleController) App.getController();
+					contrOrd.sendData(vc, utente);
+					break;
+				case CATEGORICO_PARTITI:
+				case CATEGORICO_CANDIDATI:
+				case CON_PREFERENZA:
+					navigate("VotazioneCategorica");
+					VotazioneCategoricaController contrCat = (VotazioneCategoricaController) App.getController();
+					contrCat.sendData(vc, utente);
+					break;
+				default:
+					System.out.println("Unexpected TipoVotazione");
+			}
+		}
 	}
 	
 }

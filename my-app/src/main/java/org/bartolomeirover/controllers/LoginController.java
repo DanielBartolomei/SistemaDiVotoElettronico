@@ -53,10 +53,9 @@ public class LoginController extends Controller {
 			if (adminCheck.isSelected() && toBeLogged.isAdmin()) {
 				navigate("PannelloAdmin");
 			} else {
-				String cf = usernameField.getText();
 				navigate("PannelloUtente");
 				PannelloUtenteController contr = (PannelloUtenteController) App.getController();
-				contr.sendData(cf);
+				contr.sendData(toBeLogged);
 			}
 		}
 	}

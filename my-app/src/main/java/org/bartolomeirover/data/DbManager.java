@@ -467,7 +467,7 @@ public class DbManager {
 		 * 		false se utente ha gia votato o se solleva SQLException.
 		 * @throws NullPointerException se <b>utente</b> o <b>votazione</b> sono riferimenti a null. 
 		 */
-		public boolean registraVotoVotazione(Utente utente, VotazioneClassica votazione) throws SQLException {
+		public boolean registraVotoVotazione(Utente utente, VotazioneClassica votazione) {
 			Objects.requireNonNull(utente);
 			Objects.requireNonNull(votazione);
 			try {
@@ -508,6 +508,34 @@ public class DbManager {
 			}
 		}
 		
+		/**
+		 * 
+		 * @param votazione
+		 * @param candidato
+		 * @param amount
+		 * @return true se i voti al candidato sono stati registrati, 
+		 * 		false se non ci sono tuple corrispondenti o se solleva SQLException o amount è non positivo.
+		 * @throws NullPointerExceptionse <b>votazione</b> o <b>candidato</b> sono riferimetni a null.
+		 */
+		public boolean registraEsitoVotazione(VotazioneClassica votazione, Candidato candidato, int amount) {
+			Objects.requireNonNull(votazione);
+			Objects.requireNonNull(candidato);
+			if (amount <= 0) return false;
+			
+			try {
+				List<VotiCandidato> vc = votiCandidati.queryForMatching(new VotiCandidato(votazione, candidato));
+				
+				if(vc.size() != 0) {
+					vc.get(0).aggiungiVoto(amount);
+					votiCandidati.update(vc.get(0));
+					return true;
+				}else
+					return false;
+			}catch(SQLException e) {
+				return false;
+			}
+		}
+		
 		
 		
 		/**
@@ -526,6 +554,36 @@ public class DbManager {
 				List<VotiPartito> vp = votiPartiti.queryForMatching(new VotiPartito(votazione, partito));
 				if(vp.size() != 0) {
 					vp.get(0).aggiungiVoto();
+					votiPartiti.update(vp.get(0));
+					votazione.aggiungiVoto();
+					votazioni.update(votazione);
+					return true;
+				}else
+					return false;
+			}catch(SQLException e) {
+				return false;
+			}
+		}
+		
+		/**
+		 * 
+		 * @param votazione
+		 * @param partito
+		 * @param amount
+		 * @return true se voti al partito registrati correttamente, 
+		 * 			false se non ci sono tuple corrispondenti o solleva SQLException o amount è non positivo.
+		 * @throws NullPointerExceptionse <b>votazione</b> o <b>partito</b> è riferimento a null.
+		 */
+		public boolean registraEsitoVotazione(VotazioneClassica votazione, Partito partito, int amount) {
+			Objects.requireNonNull(votazione);
+			Objects.requireNonNull(partito);
+			if (amount <= 0) return false;
+			
+			try {
+				 // da controllare il funzionamento
+				List<VotiPartito> vp = votiPartiti.queryForMatching(new VotiPartito(votazione, partito));
+				if(vp.size() != 0) {
+					vp.get(0).aggiungiVoto(amount);
 					votiPartiti.update(vp.get(0));
 					votazione.aggiungiVoto();
 					votazioni.update(votazione);
@@ -632,6 +690,26 @@ public class DbManager {
 		
 		/**
 		 * TODO
+		 * @param v
+		 * @return
+		 */
+		public List<Partito> getVotazionePartito(VotazioneClassica v) {
+			Objects.requireNonNull(v);
+			
+			try {
+				List<VotiPartito> voti = votiPartiti.queryForEq("votazione_id", v.getId());
+				List<Partito> partiti = new ArrayList<>();
+				for (VotiPartito vp : voti) {
+					partiti.add(vp.getPartito());
+				}
+				return partiti;
+			} catch (SQLException e) {
+				return null;
+			}
+		}
+		
+		/**
+		 * TODO
 		 * @return
 		 * @throws
 		 */
@@ -639,6 +717,26 @@ public class DbManager {
 			try {
 				return candidati.queryForAll();
 			}catch(SQLException e) {
+				return null;
+			}
+		}
+		
+		/**
+		 * TODO
+		 * @param v
+		 * @return
+		 */
+		public List<Candidato> getVotazioneCandidato(VotazioneClassica v) {
+			Objects.requireNonNull(v);
+			
+			try {
+				List<VotiCandidato> voti = votiCandidati.queryForEq("votazione_id", v.getId());
+				List<Candidato> candidati = new ArrayList<>();
+				for (VotiCandidato vc : voti) {
+					candidati.add(vc.getCandidato());
+				}
+				return candidati;
+			} catch (SQLException e) {
 				return null;
 			}
 		}

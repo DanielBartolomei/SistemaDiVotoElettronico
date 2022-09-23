@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="436.0" prefWidth="592.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.bartolomeirover.controllers.GestioneCandidatiController">
+   <children>
+      <ListView fx:id="candidatiList" layoutX="35.0" layoutY="86.0" prefHeight="314.0" prefWidth="351.0" />
+      <Label fx:id="titoloLabel" layoutX="35.0" layoutY="32.0" prefHeight="35.0" prefWidth="441.0" text="Gestione candidati">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <TextField fx:id="nomeField" layoutX="410.0" layoutY="151.0" promptText="Nome" />
+      <TextField fx:id="cognomeField" layoutX="410.0" layoutY="184.0" promptText="Congome" />
+      <Button layoutX="423.0" layoutY="224.0" mnemonicParsing="false" onAction="#addCandidato" text="Aggiungi candidato" />
+      <Button layoutX="424.0" layoutY="257.0" mnemonicParsing="false" onAction="#deleteCandidato" prefHeight="25.0" prefWidth="120.0" text="Rimuovi candidato" />
+      <Label layoutX="445.0" layoutY="126.0" text="Dati candidato" />
+      <Button layoutX="446.0" layoutY="329.0" mnemonicParsing="false" onAction="#confirm" prefHeight="25.0" prefWidth="77.0" text="Conferma" />
+   </children>
+</Pane>

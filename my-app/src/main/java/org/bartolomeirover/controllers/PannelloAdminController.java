@@ -29,6 +29,10 @@ public class PannelloAdminController extends Controller implements Initializable
 		navigate("CreaVotazione");
 	}
 	
+	public void partiti(ActionEvent event) {
+		navigate("GestionePartiti");
+	}
+	
 	public void delete(ActionEvent event) {
 		if (votazioniAttiveList.getSelectionModel().getSelectedItem() == null) return;
 		
