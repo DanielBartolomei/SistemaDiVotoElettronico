@@ -35,14 +35,14 @@ public class VotesManager {
 			
 			case CATEGORICO_PARTITI:
 			case CON_PREFERENZA:	
-				for(int i=voti.size()-1; i>=0; i--) {
+				for(int i=0; i<voti.size(); i++) {
 					if(voti.get(i).getVoti() < max ) break;
 					vincitori.put(voti.get(i).getPartito(), Math.toIntExact(voti.get(i).getVoti()));
 				}
 				break;
 				
 			case ORDINALE_PARTITI:
-				for(int i=0; i<voti.size(); i++) {
+				for(int i=voti.size()-1; i>=0; i--) {
 					if(voti.get(i).getVoti() > min ) break;
 					vincitori.put(voti.get(i).getPartito(), Math.toIntExact(voti.get(i).getVoti()));
 				}
@@ -136,7 +136,7 @@ public class VotesManager {
 	 * @param r
 	 * @return
 	 */
-	public String getEsitoReferendum(Referendum r) {
+	public static String getEsitoReferendum(Referendum r) {
 		
 		if(!DateUtils.hasEnded(r.getFine())){
 			return null;

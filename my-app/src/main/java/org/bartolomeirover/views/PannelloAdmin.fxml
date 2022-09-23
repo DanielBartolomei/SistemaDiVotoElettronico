@@ -19,7 +19,7 @@
       <ListView fx:id="votazioniConcluseList" layoutX="336.0" layoutY="121.0" prefHeight="235.0" prefWidth="270.0" />
       <Button fx:id="logoutButton" layoutX="529.0" layoutY="389.0" mnemonicParsing="false" onAction="#logout" text="Log out" />
       <Button fx:id="creaVotazioneButton" layoutX="272.0" layoutY="389.0" mnemonicParsing="false" onAction="#goToCreaVotazione" text="Crea votazione" />
-      <Button fx:id="risultatibtn" disable="true" layoutX="392.0" layoutY="389.0" mnemonicParsing="false" text="Visualizza risultati" />
+      <Button fx:id="risultatibtn" layoutX="392.0" layoutY="389.0" mnemonicParsing="false" onAction="#visualizza" text="Visualizza risultati" />
       <Button fx:id="partitiButton" layoutX="26.0" layoutY="389.0" mnemonicParsing="false" onAction="#partiti" text="Gestisci partiti" />
       <Button fx:id="eliminaButton" layoutX="161.0" layoutY="83.0" mnemonicParsing="false" onAction="#delete" text="Elimina" />
    </children>
