@@ -16,10 +16,10 @@ public class VotesManager {
 	}
 	
 	/**
-	 * TODO
-	 * @param voti
-	 * @param tipo
-	 * @return
+	 * Data la lista di oggetti <b>VotiPartito</b> calcola i vincitori della votazione.
+	 * @param voti - La lista di <b>VotiCandidato</b>
+	 * @param tipo - Il tipo della votazione
+	 * @return La mappa contenente le associazioni tra un <b>Partito</b> vincitore e il numero di voti ricevuti.
 	 */
 	public static Map<Partito, Integer> getVincitorePartito(List<VotiPartito> voti, TipoVotazione tipo){
 		Objects.requireNonNull(voti);
@@ -53,10 +53,10 @@ public class VotesManager {
 	}
 	
 	/**
-	 * TODO
-	 * @param voti
-	 * @param tipo
-	 * @return
+	 * Data la lista di oggetti <b>VotiCandidato</b> calcola i vincitori della votazione.
+	 * @param voti - La lista di <b>VotiCandidato</b>
+	 * @param tipo - Il tipo della votazione
+	 * @return La mappa contenente le associazioni tra un <b>Candidato</b> vincitore e il numero di voti ricevuti.
 	 */
 	public static Map<Candidato, Integer> getVincitoreCandidato(List<VotiCandidato> voti, TipoVotazione tipo){
 		Objects.requireNonNull(voti);
@@ -90,10 +90,10 @@ public class VotesManager {
 	}
 	
 	/**
-	 * TODO
-	 * @param vc
-	 * @param p
-	 * @return
+	 * Verifica i candidati di un partito che hanno ricevuto più preferenze.
+	 * @param vc - La lista di <b>VotiCandidato</b> 
+	 * @param p - Il partito di cui verificare i voti dei candidati
+	 * @return La lista dei candidati del partito <i>p</i> con più voti.
 	 */
 	public static List<Candidato> getPreferenze(List<VotiCandidato> vc, Partito p){
 		
@@ -117,19 +117,19 @@ public class VotesManager {
 	}
 
 	/**
-	 * TODO
-	 * @param v
-	 * @param voti
-	 * @return
+	 * Verifica la maggioranza assoluta.
+	 * @param v - Una votazione
+	 * @param voti - Il numero di voti da confrontare
+	 * @return true se <b>voti</b> è superiore o uguale alla maggioranza assoluta per la votazione <b>v</b>, false altrimenti.
 	 */
 	public static boolean hasMaggioranzaAssoluta(VotazioneClassica v, int voti) {
 		return voti >= (v.getVotiTotali() / 2) + 1;
 	}
 	
 	/**
-	 * TODO
-	 * @param r
-	 * @return
+	 * Dato un referendum, ne ristituisce l'esito.
+	 * @param r - Il referendum
+	 * @return L'esito del referendum, calcolato secondo gli adeguati parametri o <i>null</i> se la votazione è in corso.
 	 */
 	public static String getEsitoReferendum(Referendum r) {
 		

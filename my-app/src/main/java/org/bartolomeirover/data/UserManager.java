@@ -13,6 +13,10 @@ public class UserManager {
 		
 	}
 	
+	/**
+	 * Restituisce l'istanza del Singleton UserManager. Se non è presente, ne crea una.s
+	 * @return l'istanza di UserManager
+	 */
 	public static UserManager getInstance() {
 		if(_instance == null)
 			_instance = new UserManager();
@@ -20,9 +24,9 @@ public class UserManager {
 	}
 	
 	/**
-	 * TODO
+	 * Indica se un utente è idoneo al voto.
 	 * @param cf
-	 * @return
+	 * @return true se la persona associata al codice fiscale è maggiorenne, false altrimenti.
 	 */
 	public static boolean isValidVoter(String cf){
 		LocalDate dataNascita = CodiceFiscale.getDataDiNascita(cf);
@@ -35,10 +39,22 @@ public class UserManager {
 		}
 	}
 	
+	/**
+	 * Assegna ad un utente il livello di permesso previsto da AgID.
+	 * E' simulato e ritorna sempre true.
+	 * @param cf
+	 * @return true se la persona associata al <b>cf</b> è un admin approvato da AgID. 
+	 */
 	public static boolean isApprovedAdmin(String cf) {
 		return true; // simulato
 	}
 
+	/**
+	 * Indica se un utente è idoneo ad usare la piattaforma.
+	 * E' simulato e ritorna sempre true.
+	 * @param utente
+	 * @return true se la persona associata al <b>cf</b> è un utente riconosciuta da AgID.
+	 */
 	public static boolean isApprovedByAgiD(Utente utente) {
 		return true; // simulato
 	}
