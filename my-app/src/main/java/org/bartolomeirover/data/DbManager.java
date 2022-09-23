@@ -23,7 +23,7 @@ public class DbManager {
 
 		private static DbManager _instance;
 		
-		private static String dbUrl = "jdbc:sqlite:data.db"; //"jdbc:mysql://javauser:javauser123@localhost:3306/db";
+		private static String dbUrl = "jdbc:sqlite:data.db";
 		private ConnectionSource source;
 		
 		private Dao<Utente, String> utenti;
@@ -464,12 +464,17 @@ public class DbManager {
 		 * @param utente
 		 * @param id_votazione
 		 * @return true se votazione registrata correttamente,
-		 * 		false se utente ha gia votato o se solleva SQLException.
+		 * 		false se utente ha gia votato, se la votazione si è gia conclusa o se solleva SQLException.
 		 * @throws NullPointerException se <b>utente</b> o <b>votazione</b> sono riferimenti a null. 
 		 */
 		public boolean registraVotoVotazione(Utente utente, VotazioneClassica votazione) {
 			Objects.requireNonNull(utente);
 			Objects.requireNonNull(votazione);
+			
+			if(!DateUtils.hasEnded(votazione.getFine())){
+				return false;
+			}
+			
 			try {
 				if(votiVotazioni.queryForMatching(new Voti(votazione, utente)).size() > 0)
 					return false;
@@ -488,12 +493,17 @@ public class DbManager {
 		 * @param votazione
 		 * @param candidato
 		 * @return true se il voto al candidato è stato registrato, 
-		 * 		false se non ci sono tuple corrispondenti o se solleva SQLException.
+		 * 		false se non ci sono tuple corrispondenti, se la votazione si è gia conclusa o se solleva SQLException.
 		 * @throws NullPointerExceptionse <b>votazione</b> o <b>candidato</b> sono riferimetni a null.
 		 */
 		public boolean registraEsitoVotazione(VotazioneClassica votazione, Candidato candidato) {
 			Objects.requireNonNull(votazione);
 			Objects.requireNonNull(candidato);
+			
+			if(!DateUtils.hasEnded(votazione.getFine())){
+				return false;
+			}
+			
 			try {
 				List<VotiCandidato> vc = votiCandidati.queryForMatching(new VotiCandidato(votazione, candidato));
 				
@@ -510,9 +520,20 @@ public class DbManager {
 			}
 		}
 		
+		/**
+		 * TODO
+		 * @param votazione
+		 * @param candidato
+		 * @return
+		 */
 		public boolean registraEsitoPreferenza(VotazioneClassica votazione, Candidato candidato) {
 			Objects.requireNonNull(votazione);
 			Objects.requireNonNull(candidato);
+			
+			if(!DateUtils.hasEnded(votazione.getFine())){
+				return false;
+			}
+			
 			try {
 				List<VotiCandidato> vc = votiCandidati.queryForMatching(new VotiCandidato(votazione, candidato));
 				
@@ -539,7 +560,11 @@ public class DbManager {
 		public boolean registraEsitoVotazione(VotazioneClassica votazione, Candidato candidato, int amount) {
 			Objects.requireNonNull(votazione);
 			Objects.requireNonNull(candidato);
-			if (amount <= 0) return false;
+			if (amount <= 0) throw new IllegalArgumentException();
+			
+			if(!DateUtils.hasEnded(votazione.getFine())){
+				return false;
+			}
 			
 			try {
 				List<VotiCandidato> vc = votiCandidati.queryForMatching(new VotiCandidato(votazione, candidato));
@@ -568,8 +593,12 @@ public class DbManager {
 		public boolean registraEsitoVotazione(VotazioneClassica votazione, Partito partito) {
 			Objects.requireNonNull(votazione);
 			Objects.requireNonNull(partito);
+			
+			if(!DateUtils.hasEnded(votazione.getFine())){
+				return false;
+			}
+			
 			try {
-				 // da controllare il funzionamento
 				List<VotiPartito> vp = votiPartiti.queryForMatching(new VotiPartito(votazione, partito));
 				if(vp.size() != 0) {
 					vp.get(0).aggiungiVoto();
@@ -596,7 +625,11 @@ public class DbManager {
 		public boolean registraEsitoVotazione(VotazioneClassica votazione, Partito partito, int amount) {
 			Objects.requireNonNull(votazione);
 			Objects.requireNonNull(partito);
-			if (amount <= 0) return false;
+			if (amount <= 0) throw new IllegalArgumentException();
+			
+			if(!DateUtils.hasEnded(votazione.getFine())){
+				return false;
+			}
 			
 			try {
 				List<VotiPartito> vp = votiPartiti.queryForMatching(new VotiPartito(votazione, partito));
@@ -623,6 +656,11 @@ public class DbManager {
 		 */
 		public boolean registraEsitoVotazione(VotazioneClassica votazione) {
 			Objects.requireNonNull(votazione);
+			
+			if(!DateUtils.hasEnded(votazione.getFine())){
+				return false;
+			}
+			
 			try {
 				votazione.aggiungiBianca();
 				votazioni.update(votazione);
@@ -642,6 +680,11 @@ public class DbManager {
 		public boolean registraVotoReferendum(Utente utente, Referendum referendum) {
 			Objects.requireNonNull(utente);
 			Objects.requireNonNull(referendum);
+			
+			if(!DateUtils.hasEnded(referendum.getFine())){
+				return false;
+			}
+			
 			try {
 				if(votiReferendum.queryForMatching(new VotiReferendum(referendum, utente)).size() > 0)
 					return false;
@@ -663,6 +706,11 @@ public class DbManager {
 		public boolean registraEsitoReferendum(Referendum referendum, TipoEsitoRef esito) {
 			Objects.requireNonNull(referendum);
 			Objects.requireNonNull(esito);
+			
+			if(!DateUtils.hasEnded(referendum.getFine())){
+				return false;
+			}			
+			
 			try {
 				referendum.aggiungiVoto(esito);
 				referendums.update(referendum);

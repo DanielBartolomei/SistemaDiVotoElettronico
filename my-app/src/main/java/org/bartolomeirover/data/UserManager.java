@@ -1,5 +1,8 @@
 package org.bartolomeirover.data;
 
+import java.time.LocalDate;
+
+import org.bartolomeirover.models.CodiceFiscale;
 import org.bartolomeirover.models.Utente;
 
 public class UserManager {
@@ -22,8 +25,14 @@ public class UserManager {
 	 * @return
 	 */
 	public static boolean isValidVoter(String cf){
-		// TODO
-		return true;
+		LocalDate dataNascita = CodiceFiscale.getDataDiNascita(cf);
+		LocalDate dataNascitaLimite = LocalDate.now().withYear(LocalDate.now().getYear() - 18);
+		
+		if(dataNascitaLimite.isAfter(dataNascita) || dataNascitaLimite.isEqual(dataNascita)) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 	
 	public static boolean isApprovedAdmin(String cf) {
