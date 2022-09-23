@@ -25,8 +25,6 @@ public class VotesManager {
 		Objects.requireNonNull(voti);
 		Objects.requireNonNull(tipo);
 		
-		DbManager db = DbManager.getInstance();
-		
 		long min = voti.get(voti.size()-1).getVoti();
 		long max = voti.get(0).getVoti();
 		Map<Partito, Integer> vincitori = new HashMap<>();
@@ -63,8 +61,6 @@ public class VotesManager {
 	public static Map<Candidato, Integer> getVincitoreCandidato(List<VotiCandidato> voti, TipoVotazione tipo){
 		Objects.requireNonNull(voti);
 		Objects.requireNonNull(tipo);
-		
-		DbManager db = DbManager.getInstance();
 		
 		long min = voti.get(voti.size()-1).getVoti();
 		long max = voti.get(0).getVoti();

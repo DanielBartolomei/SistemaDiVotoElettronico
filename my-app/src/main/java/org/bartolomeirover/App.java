@@ -1,17 +1,11 @@
 package org.bartolomeirover;
 
 import java.io.IOException;
-import java.net.URL;
-import java.sql.Timestamp;
-import java.time.format.DateTimeFormatter;
-import java.time.LocalDate;
-
 import org.bartolomeirover.data.DbManager;
 import org.bartolomeirover.App;
 import org.bartolomeirover.common.Controller;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,7 +13,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -44,7 +37,7 @@ public class App extends Application {
 		
 		
 		try {
-			this.scene = new Scene(loadView("Home"));
+			scene = new Scene(loadView("Home"));
 	        stage.setScene(scene);
 	        stage.setTitle("Votazioni elettroniche");
 	        stage.sizeToScene();
