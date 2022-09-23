@@ -346,9 +346,8 @@ public class DbManager {
 		}
 		
 		/**
-		 * TODO
 		 * @param vc
-		 * @return
+		 * @return true se la votazione è stata rimossa correttamente
 		 */
 		public boolean rimuoviVotazione(VotazioneClassica vc) {
 			Objects.requireNonNull(vc);

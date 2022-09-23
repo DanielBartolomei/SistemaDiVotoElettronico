@@ -38,16 +38,10 @@ public class App extends Application {
 
 		if (db.checkCreation()) {
         	System.out.println("OK");
-        	//db.createFakeData();
         }else {
         	System.out.println("NOT OK");
         }
 		
-		/*LocalDate ld = LocalDate.of(2022, 9, 25); //LocalDate.now()
-		
-		DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
-		String fs = ld.format(formatter);
-        System.out.println(fs);*/
 		
 		try {
 			this.scene = new Scene(loadView("Home"));
