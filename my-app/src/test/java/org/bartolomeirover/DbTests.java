@@ -3,6 +3,7 @@ package org.bartolomeirover;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.bartolomeirover.data.DbManager;
+import org.bartolomeirover.models.Partito;
 import org.bartolomeirover.models.TipoVotazione;
 import org.bartolomeirover.models.Utente;
 
@@ -66,10 +67,28 @@ public class DbTests {
     void testAggiungiVotazione() {
     	LocalDate inizio = LocalDate.of(2023, 02, 10);
     	LocalDate fine = LocalDate.of(2023, 02, 15);
-    	assertTrue(db.aggiungiVotazione("Votazione Comunale", inizio, fine, false, TipoVotazione.CATEGORICO_PARTITI));
+    	assertTrue(db.aggiungiVotazione("Votazione Comunale", inizio, fine, false, TipoVotazione.CATEGORICO_CANDIDATI) != null);
     }
     
+    @DisplayName("Test Aggiunta Partito")
+    @Test
+    void testAggiungiPartito() {
+    	assertTrue(db.aggiungiPartito("Forza Italia"));
+    }
     
+    @DisplayName("Test Aggiungi Candidati")
+    @Test
+    void testAggiungiCandidati() {
+    	assertTrue(db.aggiungiCandidato("Marco", "Pierini", "Forza Italia") && 
+    			db.aggiungiCandidato("Matteo", "Botte", "Forza Italia"));
+    }
+    
+    @DisplayName("Test Rimuovi Partito")
+    @Test
+    void testRimuoviPartito() {
+    	Partito partito = db.getPartito("Forza Italia");
+    	assertTrue(db.rimuoviPartito(partito) && db.getPartito("Forza Italia") == null);
+    }
     
 
 }

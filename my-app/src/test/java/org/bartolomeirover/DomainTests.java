@@ -32,4 +32,5 @@ public class DomainTests {
 		assertTrue(UserManager.isValidVoter(cfUtente));
 
 	}
+	
 }
