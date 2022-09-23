@@ -79,7 +79,6 @@ public class PannelloAdminController extends Controller implements Initializable
 				case ORDINALE_PARTITI:
 				case CON_PREFERENZA:
 					Map<Partito, Integer> esitiPartito = db.getPartitoVincitore(vc);
-					System.out.println(esitiPartito.toString());
 					if (esitiPartito.size() > 1) {
 						// pareggio
 						Partito p = null;
@@ -131,7 +130,6 @@ public class PannelloAdminController extends Controller implements Initializable
 				case CATEGORICO_CANDIDATI:
 				case ORDINALE_CANDIDATI:
 					Map<Candidato, Integer> esiti = db.getCandidatoVincitore(vc);
-					System.out.println(esiti.toString());
 					if (esiti.size() > 1) {
 						// pareggio
 						Candidato c = null;

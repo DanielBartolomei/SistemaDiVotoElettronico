@@ -50,7 +50,6 @@ public class VotesManager {
 			
 			default:
 		}
-		
 		return vincitori;
 		
 	}

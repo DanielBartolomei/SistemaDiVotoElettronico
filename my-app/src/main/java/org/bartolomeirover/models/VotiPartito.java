@@ -62,4 +62,9 @@ public class VotiPartito implements Comparable<VotiPartito>{
 		return 0;
 	}
 	
+	@Override
+	public String toString() {
+		return this.partito.getNome() + " : " + totVoti;
+	}
+	
 }
