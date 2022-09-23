@@ -213,9 +213,10 @@ public class DbManager {
 		}
 		
 		/**
-		 * TODO
+		 * 
 		 * @param p
-		 * @return
+		 * @return true se il partito è stato rimosso correttamente, false se è sollevata una SQLException
+		 * @throws NullPointerException se p è riferimento a null
 		 */
 		public boolean rimuoviPartito(Partito p) {
 			Objects.requireNonNull(p);
@@ -261,9 +262,9 @@ public class DbManager {
 		}
 		
 		/**
-		 * TODO
 		 * @param c
-		 * @return
+		 * @return true se candidato è stato rimosso correttamente, false se solleva SQLException
+		 * @throws NullPointerException se c è riferimento a null
 		 */
 		public boolean rimuoviCandidato(Candidato c) {
 			Objects.requireNonNull(c);
@@ -347,7 +348,8 @@ public class DbManager {
 		
 		/**
 		 * @param vc
-		 * @return true se la votazione è stata rimossa correttamente
+		 * @return true se la votazione è stata rimossa correttamente, false se solleva SQLException
+		 * @throws NullPointerException se vc è riferimento a null
 		 */
 		public boolean rimuoviVotazione(VotazioneClassica vc) {
 			Objects.requireNonNull(vc);
@@ -393,9 +395,8 @@ public class DbManager {
 		}
 		
 		/**
-		 * TODO
 		 * @param r
-		 * @return
+		 * @return true se il referendum è stato rimosso correttamente, false se solleva SQLException
 		 */
 		public boolean rimuoviReferendum(Referendum r) {
 			Objects.requireNonNull(r);
@@ -525,10 +526,11 @@ public class DbManager {
 		}
 		
 		/**
-		 * TODO
 		 * @param votazione
 		 * @param candidato
-		 * @return
+		 * @return true se l'esito della preferenza è stato registrato correttamente, false se solleva SQLException o 
+		 * 		se non sono state trovate tuple corrispondenti alla coppia votazione, candidato.
+		 * @throws NullPointerException se votazione o candidato sono riferimenti a null.
 		 */
 		public boolean registraEsitoPreferenza(VotazioneClassica votazione, Candidato candidato) {
 			Objects.requireNonNull(votazione);
@@ -746,9 +748,7 @@ public class DbManager {
 		}
 		
 		/**
-		 * TODO
-		 * @return
-		 * @throws
+		 * @return lista contenente tutti i partiti, null se solleva SQLException
 		 */
 		public List<Partito> getAllPartito() {
 			try {
@@ -759,9 +759,9 @@ public class DbManager {
 		}
 		
 		/**
-		 * TODO
 		 * @param v
-		 * @return
+		 * @return lista contenenti tutti i partiti partecipanti ad una votazione, null se solleva SQLException
+		 * @throws NullPointerException se v è riferimento a null
 		 */
 		public List<Partito> getVotazionePartito(VotazioneClassica v) {
 			Objects.requireNonNull(v);
@@ -779,9 +779,7 @@ public class DbManager {
 		}
 		
 		/**
-		 * TODO
-		 * @return
-		 * @throws
+		 * @return lista con tutti i candidati, null se solleva SQLException
 		 */
 		public List<Candidato> getAllCandidato() {
 			try {
@@ -792,16 +790,15 @@ public class DbManager {
 		}
 		
 		/**
-		 * TODO
 		 * @param v
-		 * @return
+		 * @return lista con tutti i candidati partecipi alla votazione, null se solleva SQLException
+		 * @throws NullPointerException se v è riferimento a null
 		 */
 		public List<Candidato> getVotazioneCandidato(VotazioneClassica v) {
 			Objects.requireNonNull(v);
 			
 			try {
 				List<VotiCandidato> listaVoti = votiCandidati.queryForEq("votazione_id", v.getId());
-				//System.out.println("Lista voti: "+voti.toString());
 				List<Candidato> cands = new ArrayList<>();
 				for (VotiCandidato vc : listaVoti) {
 					Candidato c = vc.getCandidato();
@@ -809,7 +806,6 @@ public class DbManager {
 					System.out.println(c.toString());
 					cands.add(c);
 				}
-				//System.out.println("Lista candidati: "+candidati);
 				return cands;
 			} catch (SQLException e) {
 				return null;
@@ -821,8 +817,10 @@ public class DbManager {
 		 * @param id_candidato
 		 * @return candidato corrispondente al id_candidato, 
 		 * 		null se l'id non è associato ad un candidato o è sollevata una SQLException
+		 * @throws IllegalArgumentExceptionse id_candidato < 0
 		 */
 		public Candidato getCandidato(int id_candidato) {
+			if(id_candidato < 0) throw new IllegalArgumentException();
 			try {
 				return candidati.queryForId(id_candidato);
 			}catch(SQLException e) {
@@ -923,9 +921,9 @@ public class DbManager {
 		}
 		
 		/**
-		 * TODO
 		 * @param cf
-		 * @return
+		 * @return utente associato al codice fiscale inserito, null se il codice fiscale non é associato a nessun utente o
+		 * 	se solleva SQLException
 		 */
 		public Utente findUtenteByCF(String cf) {
 			Objects.requireNonNull(cf);
@@ -981,14 +979,14 @@ public class DbManager {
 		}
 		
 		/**
-		 * TODO
 		 * @param vc
-		 * @return
+		 * @return mappa contenente il partito o i partiti vincitori (pari merito), nullse la votazione non si è ancora conclusa o
+		 * 		se solleva SQLException.
+		 * @throws NullPointerException se v è riferimento a null
 		 */
 		public Map<Partito, Integer> getPartitoVincitore(VotazioneClassica v){
 			Objects.requireNonNull(v);
 			
-			// forse questo controllo va fatto prima di questa invocazione
 			if(!DateUtils.hasEnded(v.getFine())){
 				return null;
 			}
@@ -1004,10 +1002,10 @@ public class DbManager {
 		}
 		
 		/**
-		 * TODO
 		 * @param vc
 		 * @param p
-		 * @return
+		 * @return lista di candidati di un partito partecipe alla votazione, null se non ci sono tuple associate ai parametri o
+		 * 		se solleva SQLException
 		 */
 		public List<Candidato> getVotiCandidatiPartito(VotazioneClassica v, Partito p){
 			Objects.requireNonNull(v);
