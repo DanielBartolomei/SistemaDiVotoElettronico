@@ -4,15 +4,12 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import org.bartolomeirover.common.Controller;
-import org.bartolomeirover.common.DateUtils;
 import org.bartolomeirover.data.DbManager;
 import org.bartolomeirover.models.Candidato;
 import org.bartolomeirover.models.Partito;
 import org.bartolomeirover.models.TipoVotazione;
 import org.bartolomeirover.models.VotazioneClassica;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
