@@ -49,6 +49,10 @@ public class VotazioneReferendumController extends Controller {
 		DbManager db = DbManager.getInstance();
 		db.registraEsitoReferendum(ref, TipoEsitoRef.BIANCA);
 		db.registraVotoReferendum(utente, ref);
+		
+		navigate("PannelloUtente");
+		PannelloUtenteController contr = (PannelloUtenteController) App.getController();
+		contr.sendData(utente);
 	}
 	
 }

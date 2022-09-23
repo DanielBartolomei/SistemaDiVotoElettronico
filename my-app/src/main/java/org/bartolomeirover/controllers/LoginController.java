@@ -29,7 +29,6 @@ public class LoginController extends Controller {
 	
 	public void login(ActionEvent event) {
 		
-		
 		if (usernameField.getText().equals("")) {
 			usernameField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
 		} else {
