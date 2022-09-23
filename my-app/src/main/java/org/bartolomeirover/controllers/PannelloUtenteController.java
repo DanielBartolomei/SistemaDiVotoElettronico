@@ -31,6 +31,7 @@ public class PannelloUtenteController extends Controller {
 		List<Referendum> referendum = db.getAllReferendum();
 		List<VotazioneClassica> votazioniUtente = db.getVotazioniUtente(utente);
 		List<Referendum> referendumUtente = db.getReferendumUtente(utente);
+		System.out.println(votazioniUtente);
 		
 		for (VotazioneClassica vc : votazioni) {
 			if (votazioniUtente.contains(vc)) {

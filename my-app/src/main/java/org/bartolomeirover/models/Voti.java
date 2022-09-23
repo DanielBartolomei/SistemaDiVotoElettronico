@@ -20,6 +20,10 @@ public class Voti {
 	@DatabaseField(foreign = true, uniqueCombo = true)
 	private VotazioneClassica votazione;
 	
+	public VotazioneClassica getVotazione() {
+		return this.votazione;
+	}
+	
 	@DatabaseField(foreign = true, uniqueCombo = true)
 	private Utente utente;
 	

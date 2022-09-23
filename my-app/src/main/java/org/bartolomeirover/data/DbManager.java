@@ -471,7 +471,7 @@ public class DbManager {
 			Objects.requireNonNull(utente);
 			Objects.requireNonNull(votazione);
 			
-			if(!DateUtils.hasEnded(votazione.getFine())){
+			if(DateUtils.hasEnded(votazione.getFine())){
 				return false;
 			}
 			
@@ -500,7 +500,7 @@ public class DbManager {
 			Objects.requireNonNull(votazione);
 			Objects.requireNonNull(candidato);
 			
-			if(!DateUtils.hasEnded(votazione.getFine())){
+			if(DateUtils.hasEnded(votazione.getFine())){
 				return false;
 			}
 			
@@ -530,7 +530,7 @@ public class DbManager {
 			Objects.requireNonNull(votazione);
 			Objects.requireNonNull(candidato);
 			
-			if(!DateUtils.hasEnded(votazione.getFine())){
+			if(DateUtils.hasEnded(votazione.getFine())){
 				return false;
 			}
 			
@@ -562,7 +562,7 @@ public class DbManager {
 			Objects.requireNonNull(candidato);
 			if (amount <= 0) throw new IllegalArgumentException();
 			
-			if(!DateUtils.hasEnded(votazione.getFine())){
+			if(DateUtils.hasEnded(votazione.getFine())){
 				return false;
 			}
 			
@@ -594,7 +594,7 @@ public class DbManager {
 			Objects.requireNonNull(votazione);
 			Objects.requireNonNull(partito);
 			
-			if(!DateUtils.hasEnded(votazione.getFine())){
+			if(DateUtils.hasEnded(votazione.getFine())){
 				return false;
 			}
 			
@@ -627,7 +627,7 @@ public class DbManager {
 			Objects.requireNonNull(partito);
 			if (amount <= 0) throw new IllegalArgumentException();
 			
-			if(!DateUtils.hasEnded(votazione.getFine())){
+			if(DateUtils.hasEnded(votazione.getFine())){
 				return false;
 			}
 			
@@ -657,7 +657,7 @@ public class DbManager {
 		public boolean registraEsitoVotazione(VotazioneClassica votazione) {
 			Objects.requireNonNull(votazione);
 			
-			if(!DateUtils.hasEnded(votazione.getFine())){
+			if(DateUtils.hasEnded(votazione.getFine())){
 				return false;
 			}
 			
@@ -681,7 +681,7 @@ public class DbManager {
 			Objects.requireNonNull(utente);
 			Objects.requireNonNull(referendum);
 			
-			if(!DateUtils.hasEnded(referendum.getFine())){
+			if(DateUtils.hasEnded(referendum.getFine())){
 				return false;
 			}
 			
@@ -707,7 +707,7 @@ public class DbManager {
 			Objects.requireNonNull(referendum);
 			Objects.requireNonNull(esito);
 			
-			if(!DateUtils.hasEnded(referendum.getFine())){
+			if(DateUtils.hasEnded(referendum.getFine())){
 				return false;
 			}			
 			
@@ -796,12 +796,17 @@ public class DbManager {
 			Objects.requireNonNull(v);
 			
 			try {
-				List<VotiCandidato> voti = votiCandidati.queryForEq("votazione_id", v.getId());
-				List<Candidato> candidati = new ArrayList<>();
-				for (VotiCandidato vc : voti) {
-					candidati.add(vc.getCandidato());
+				List<VotiCandidato> listaVoti = votiCandidati.queryForEq("votazione_id", v.getId());
+				//System.out.println("Lista voti: "+voti.toString());
+				List<Candidato> cands = new ArrayList<>();
+				for (VotiCandidato vc : listaVoti) {
+					Candidato c = vc.getCandidato();
+					candidati.refresh(c);
+					System.out.println(c.toString());
+					cands.add(c);
 				}
-				return candidati;
+				//System.out.println("Lista candidati: "+candidati);
+				return cands;
 			} catch (SQLException e) {
 				return null;
 			}
@@ -941,7 +946,7 @@ public class DbManager {
 				
 				List<VotazioneClassica> v = new ArrayList<>();
 				for( int i=0; i<votiUtente.size(); i++) {
-					v.add(votazioni.queryForId(votiUtente.get(i).getId()));
+					v.add(votazioni.queryForId(votiUtente.get(i).getVotazione().getId()));
 				}
 				return v;
 			}catch(SQLException e) {

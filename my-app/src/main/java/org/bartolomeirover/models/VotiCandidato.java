@@ -22,7 +22,7 @@ public class VotiCandidato implements Comparable<VotiCandidato>{
 	private Candidato candidato;
 	
 	public Candidato getCandidato() {
-		return candidato;
+		return this.candidato;
 	}
 	
 	@DatabaseField
@@ -63,5 +63,10 @@ public class VotiCandidato implements Comparable<VotiCandidato>{
 		if( this.totVoti < o.totVoti ) return 1;
 		if( this.totVoti > o.totVoti ) return -1;
 		return 0;
+	}
+	
+	@Override
+	public String toString() {
+		return getCandidato().toString() + ":" + totVoti;
 	}
 }

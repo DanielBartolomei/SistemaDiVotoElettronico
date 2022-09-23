@@ -107,7 +107,8 @@ public class VotazioneOrdinaleController extends Controller {
 			}
 		}
 		
-		db.registraVotoVotazione(this.utente, this.votazione);
+		boolean esito = db.registraVotoVotazione(this.utente, this.votazione);
+		System.out.println(esito);
 		
 		navigate("PannelloUtente");
 		PannelloUtenteController contr = (PannelloUtenteController) App.getController();
